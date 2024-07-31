@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseDomain", "CourseDomai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseServices", "CourseService\CourseServices.csproj", "{FF7A573C-B223-49C9-A45C-6A477707F2A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{00C87E0F-DD48-4DE9-AC00-6BC6CF4318DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{FF7A573C-B223-49C9-A45C-6A477707F2A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF7A573C-B223-49C9-A45C-6A477707F2A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF7A573C-B223-49C9-A45C-6A477707F2A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00C87E0F-DD48-4DE9-AC00-6BC6CF4318DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00C87E0F-DD48-4DE9-AC00-6BC6CF4318DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00C87E0F-DD48-4DE9-AC00-6BC6CF4318DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00C87E0F-DD48-4DE9-AC00-6BC6CF4318DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

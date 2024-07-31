@@ -17,6 +17,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 // Configure session services
 builder.Services.AddDistributedMemoryCache(); // Provides distributed memory cache for session storage
+
+ 
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout period
@@ -26,7 +28,10 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
+
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -34,6 +39,11 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
+DefaultFilesOptions options = new DefaultFilesOptions();
+options.DefaultFileNames.Clear();
+options.DefaultFileNames.Add("Home.html");
+
+app.UseDefaultFiles(options);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
