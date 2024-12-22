@@ -1,0 +1,521 @@
+﻿@* @using EduCore.Domain.DTOs
+@using EduCore.Web.Services
+@using Newtonsoft.Json
+@using Microsoft.AspNetCore.Http
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor *@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Course Website </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&family=Jost:wght@400;600;700&family=Roboto+Slab&family=Poppins&display=swap"
+          rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" rel="stylesheet">
+    <link href="/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+
+
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" type="text/css" href="/css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style1.css">
+
+
+</head>
+
+
+<body>
+    @{
+        var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>((string)TempData.Peek("Categories"));
+        var numberCourseInCart = (int?)ViewData["NumberCourseCart"];
+
+        string userJson = HttpContextAccessor.HttpContext.Request.Cookies["User"] != null ?
+        HttpContextAccessor.HttpContext.Request.Cookies["User"] :
+        HttpContextAccessor.HttpContext?.Session?.GetString("User");
+        UserDTO? student = !string.IsNullOrEmpty(userJson) ? JsonConvert.DeserializeObject<UserDTO>(userJson) : null;
+
+    }
+    <style>
+        .dropdown-submenu {
+            position: relative;
+        }
+
+            .dropdown-submenu > .dropdown-menu {
+                top: 0;
+                left: 100%;
+                margin-top: -1px;
+                display: none;
+            }
+
+            .dropdown-submenu:hover > .dropdown-menu {
+                display: block;
+            }
+
+        #input_search:hover {
+            background-color: white;
+        }
+
+        #input_search:focus {
+            background-color: white;
+        }
+    </style>
+    <header>
+
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white     ">
+            <div class="container">
+                <button class="navbar-toggler " type="button" data-bs-toggle="collapse"
+                        data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <nav class="main-menu d-flex navbar flex-wrap fixed-top navbar-expand-lg  ">
+
+                        <div class="container-fluid pt-0">
+
+                            <div class="main-logo">
+                                <a class="navbar-brand" asp-area="" asp-page="/Student/Index">
+                                    <img src="~/images/logo.png" alt="logo" class="img-fluid">
+                                </a>
+                            </div>
+
+                            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+
+                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                                 aria-labelledby="offcanvasNavbarLabel">
+
+                                <div class="offcanvas-header">
+                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                            aria-label="Close"></button>
+                                </div>
+
+                                <div class="offcanvas-body justify-content-end">
+
+                                    <ul class="navbar-nav menu-list list-unstyled align-items-lg-center d-flex gap-md-3 mb-0">
+                                        <li class="navbar-brand">
+                                            <a id="home" asp-page="/Student/Index"
+                                               class="nav-link mx-2 active ">Home</a>
+                                        </li>
+                                        <li class="nav-item dropdown ">
+                                            <a class="nav-link mx-2 dropdown-toggle" id="coursesDropdown" role="button"
+                                               data-bs-toggle="dropdown" aria-expanded="false">Courses</a>
+                                            <ul class="dropdown-menu" aria-labelledby="coursesDropdown">
+                                                @if (categories != null && categories.Any())
+                                                {
+                                                    foreach (var cate in categories)
+                                                    {
+                                                        <li class="dropdown-submenu">
+                                                            <a id="cate_id"
+                                                               href="/Student/Course/List?CateId=@cate.CategoryId"
+                                                               class="dropdown-item dropdown-toggle">@cate.CategoryName</a>
+                                                            <ul class="dropdown-menu">
+                                                                @if (cate.SubCategories.Any())
+                                                                {
+                                                                    foreach (var subCate in cate.SubCategories)
+                                                                    {
+                                                                        <li>
+                                                                            <a id="=sub_cate_id"
+                                                                               href="/Student/Course/List?CateId=@cate.CategoryId&SubCateId=@subCate.SubCategoryId"
+                                                                               class="dropdown-item">@subCate.SubCategoryName</a>
+                                                                        </li>
+                                                                    }
+                                                                }
+                                                            </ul>
+                                                        </li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a asp-page="/Student/Instructor/List"
+                                               class="nav-link mx-2  align-items-center">Instructors</a>
+                                            @* <ul class="dropdown-menu" aria-labelledby="courses">
+                                            <li>
+                                            <a href="event.html" class="dropdown-item">
+                                            event<span class="badge bg-secondary-subtle text-dark ms-2">PRO</span>
+                                            </a>
+                                            </li>
+                                            <li>
+                                            <a href="event-details.html" class="dropdown-item">
+                                            event details<span class="badge bg-secondary-subtle text-dark
+                                            ms-2">PRO</span>
+                                            </a>
+                                            </li>
+                                            </ul> *@
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                            <a asp-page="/Review/Index"
+                                               class="nav-link mx-2 dropdown-toggle align-items-center" role="button"
+                                               id="reviews" data-bs-toggle="dropdown" aria-expanded="false">Reviews</a>
+                                            <ul class="dropdown-menu" aria-labelledby="blog">
+                                                <li>
+                                                    <a href="blog.html" class="dropdown-item">
+                                                        blog<span class="badge bg-secondary-subtle text-dark ms-2">PRO</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="single-post.html" class="dropdown-item">
+                                                        single post<span class="badge bg-secondary-subtle text-dark ms-2">PRO</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button"
+                                               id="system_settings" data-bs-toggle="dropdown"
+                                               aria-expanded="false">System Settings</a>
+                                            <ul class="dropdown-menu" aria-labelledby="shop">
+                                                <li>
+                                                    <a href="shop.html" class="dropdown-item">
+                                                        Shop<span class="badge bg-secondary-subtle text-dark ms-2">PRO</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="single-product.html" class="dropdown-item">
+                                                        Single Product<span class="badge bg-secondary-subtle text-dark ms-2">PRO</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="contact.html" class="nav-link mx-2">contact</a>
+                                        </li>
+                                        
+                                        <li class="nav-item">
+                                            <a href="/Student/Course/List?handler=Enrollment&studentId=@(student?.UserId)" class="nav-link mx-2">my courses</a>
+                                        </li>
+
+                                    </ul>
+
+
+
+
+                                    <!-----------------------------------------------------Login singup------------------------------->
+                                    <div class="d-none d-lg-flex align-items-center ms-5">
+                                        <ul class="d-flex justify-content-end  list-unstyled m-0">
+
+                                            @if (student == null)
+                                            {
+                                                <li>
+                                                    <form id="loginForm" asp-page="/Home/LoginAndSignup">
+                                                        <button type="submit" class="btn btn-outline-dark mx-3 p-3"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal">
+                                                            Login/Signup
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+
+                                                    <a class="btn btn-outline-dark mx-3 p-3"
+                                                       id="logoutForm" href="/Home/Logout?handler=Logout">
+                                                        Logout
+                                                    </a>
+                                                </li>
+
+                                                <li class="align-self-end">
+                                                    <a href="/Student/Cart/List">
+                                                        <iconify-icon icon="mdi:cart"
+                                                                      class="fs-4 position-relative"></iconify-icon>
+                                                        <span class="position-absolute text-black translate-middle badge rounded-circle bg-primary">
+                                                            @numberCourseInCart
+                                                        </span>
+                                                    </a>
+
+
+                                                    <a href="#" class="my-auto">
+                                                        <img class="rounded-circle border"
+                                                             src="@(student?.UrlImage ?? "https://th.bing.com/th/id/OIP.DxdqBFLVLPcWsjkds8636QHaHf?w=174&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7")"
+                                                             alt="Student Image"
+                                                             style="width: 50px; height: 50px; object-fit: cover;" />
+                                                    </a>
+
+                                                </li>
+
+
+                                            }
+
+
+
+
+
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <!------------Cart--------------->
+                        <div class="container-fluid d-lg-none">
+                            <div class="d-flex  align-items-end mt-5">
+                                <ul class="d-flex justify-content-end list-unstyled m-0">
+                                    <li>
+                                        <a href="account.html" class="me-4">
+                                            <iconify-icon icon="healthicons:person" class="fs-4 me-2"></iconify-icon>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="wishlist.html" class="me-4">
+                                            <iconify-icon icon="mdi:heart" class="fs-4 me-2"></iconify-icon>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="me-4" data-bs-toggle="offcanvas"
+                                           data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                                            <iconify-icon icon="mdi:cart"
+                                                          class="fs-4 me-2 position-relative"></iconify-icon>
+                                            <span class="position-absolute translate-middle badge rounded-circle bg-primary text-black">
+                                                03
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </div>
+                        <!----------Search------>
+                        <div class="rounded-sm col-md-12 container-fluid  my-2 p-2 d-flex justify-content-center  "
+                             style="background-color:#f5f5f5 ;">
+                            <div class="col-md-2 ">
+                                <button class="mx-5  btn btn-outline-warning w-50" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false"
+                                        aria-controls="collapseExample">
+                                    <i class="bi bi-menu-up"></i>
+                                    Menu
+                                </button>
+
+
+                            </div>
+
+
+                                <div class=" col-md-9  ">
+                            <form asp-page-handler="" method="get">
+
+                                    <input id="input_search" type="text"
+                                           class="text-muted w-75  btn btn-outline-secondary rounded-pill shadow-sm" />
+                                    <button id="btn_search" class="btn btn-outline-secondary">Search</button>
+                            </form>
+                                </div>
+
+
+                            <h7 class="col-md-1">@(student?.FullName ?? "")</h7>
+                        </div>
+
+
+
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body menu-collapse shadow-sm">
+                                <ul>
+                                    <li>Course</li>
+                                    <li>Instructor</li>
+                                    <li>Top attribute</li>
+                                    <li>Blog</li>
+                                </ul>
+
+                            </div>
+                        </div>
+                        <!-------------------------------End search--------------->
+                    </nav>
+
+
+                </div>
+
+            </div>
+        </nav>
+
+
+
+    </header>
+
+
+    <div class="container-fluid  ">
+
+
+        @RenderBody()
+
+    </div>
+
+    <footer id="footer">
+        <div class="container padding-medium ">
+            <div class="row">
+                <div class="col-md-4 my-3">
+                    <h5 class="text-uppercase fw-bold mb-4">Contact us</h5>
+                    <p>
+                        <iconify-icon class="social-icon text-primary fs-5 me-2" icon="mdi:location"
+                                      style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Address: </span> 30
+                        E Lake St,
+                        Chicago, USA
+                    </p>
+                    <p>
+                        <iconify-icon class="social-icon text-primary fs-5 me-2" icon="solar:phone-bold"
+                                      style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Phone: </span>
+                        (510) 710-3464
+                    </p>
+                    <p>
+                        <iconify-icon class="social-icon text-primary fs-5 me-2" icon="ic:baseline-email"
+                                      style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Email: </span>
+                        info@worldcourse.com
+                    </p>
+                </div>
+                <div class="col-md-2 my-3">
+                    <div class="footer-menu">
+                        <h5 class="text-uppercase fw-bold mb-4">Links</h5>
+                        <ul class="menu-list list-unstyled">
+                            <li class="menu-item mb-2">
+                                <a href="#" class="footer-link">Home</a>
+                            </li>
+                            <li class="menu-item mb-2">
+                                <a href="#" class="footer-link">About us</a>
+                            </li>
+                            <li class="menu-item mb-2">
+                                <a href="#" class="footer-link">Courses</a>
+                            </li>
+                            <li class="menu-item mb-2">
+                                <a href="#" class="footer-link">Blogs</a>
+                            </li>
+                            <li class="menu-item mb-2">
+                                <a href="#" class="footer-link">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2 my-3">
+                    <div class="footer-menu">
+                        <h5 class="text-uppercase fw-bold mb-4">support</h5>
+                        <ul class="menu-list list-unstyled">
+                            <li class="menu-item mb-2">
+                                <a href="#">FAQs</a>
+                            </li>
+                            <li class="menu-item mb-2">
+                                <a href="#">Support</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 my-3">
+                    <div class="footer-menu">
+                        <h5 class="text-uppercase fw-bold mb-4">Follow us</h5>
+                        <div class="social-links mt-4">
+                            <ul class="d-flex list-unstyled gap-3">
+                                <li class="social">
+                                    <a href="#">
+                                        <iconify-icon class="social-icon fs-4 me-2"
+                                                      icon="ri:facebook-fill"></iconify-icon>
+                                    </a>
+                                </li>
+                                <li class="social">
+                                    <a href="#">
+                                        <iconify-icon class="social-icon fs-4 me-2"
+                                                      icon="ri:twitter-fill"></iconify-icon>
+                                    </a>
+                                </li>
+                                <li class="social">
+                                    <a href="#">
+                                        <iconify-icon class="social-icon fs-4 me-2"
+                                                      icon="ri:pinterest-fill"></iconify-icon>
+                                    </a>
+                                </li>
+                                <li class="social">
+                                    <a href="#">
+                                        <iconify-icon class="social-icon fs-4 me-2"
+                                                      icon="ri:instagram-fill"></iconify-icon>
+                                    </a>
+                                </li>
+                                <li class="social">
+                                    <a href="#">
+                                        <iconify-icon class="social-icon fs-4 me-2"
+                                                      icon="ri:youtube-fill"></iconify-icon>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="footer-bottom">
+        <hr class="m-0 text-black-50">
+        <div class="container py-3">
+            <div class="row mt-3">
+                <div class="col-md-6 copyright">
+                    <p>© 2024 WorldCourse. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>
+                        Free HTML Template by <a href="https://templatesjungle.com/" target="_blank"
+                                                 class="text-decoration-underline fw-bold"> TemplatesJungle</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- JavaScript Libraries -->
+    <script src="/lib/jquery/dist/jquery.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+    <script src="/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="/lib/easing/easing.min.js"></script>
+    <script src="/lib/waypoints/waypoints.min.js"></script>
+
+    <!-- Custom Scripts -->
+    <script src="/js/plugins.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/main.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+
+
+
+
+</body>
+
+</html>

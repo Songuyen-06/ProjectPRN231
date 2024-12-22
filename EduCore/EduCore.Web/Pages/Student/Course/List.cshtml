@@ -1,0 +1,171 @@
+﻿@page
+@using EduCore.Domain.DTOs
+@model EduCore.Web.Pages.Student.Course.ListModel
+
+@{
+
+
+    List<SubCategoryDTO>? subCateList = Model.SubCategories;
+
+    Layout = subCateList != null ? "../../Shared/Layouts/Student/_CourseLayout.cshtml" : "../../Shared/Layouts/Student/_Layout.cshtml";
+
+    string href = $"/Student/Course/List?CateId={Model.CateId}";
+    href += Model.SubCateId != null ? $"&SubCateId={Model.SubCateId}" : "";
+    href += Model.Levels != null ? $"&Levels={Model.Levels}" : "";
+    href += Model.Rating != null ? $"&Rating={Model.Rating}" : "";
+    href += Model.Price != null ? $"&Price={Model.Price}" : "";
+    href += Model.SortBy != null ? $"&SortBy={Model.SortBy}" : "";
+    href += $"&PageIndex=1";
+    ViewData["hrefFilterCourse"] = href;
+    ViewData["isEnrolledCourses"] = Model.EnrolledCourses!=null;
+}
+
+<body>
+    <style>
+        .list-view {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    </style>
+
+
+    <div class="container-fluid">
+
+        <div class="d-flex border border-secondary  col-md-12 p-2 shadow rounded-2" style="background:#f5f5f5 ;">
+            <div class="col-md-1 ">
+                <i class="fa fa-th m-2 fa-lg " id="toggleGrid" style="color: #ffca2c;"></i>
+                <i class="fa fa-th-list m-2 fa-lg" id="toggleList"></i>
+
+            </div>
+
+
+            <div class="d-flex align-items-lg-start col-md-9  ">
+                @if (subCateList != null)
+                {
+
+                    foreach (var sc in subCateList)
+                    {
+                        <a data-sub_cate_id="@sc.SubCategoryId"
+                           class="filter-sub_cate_id border shadow-sm  rounded-pill me-4 btn @((Model.SubCateId!=null && Model.SubCateId.Equals(sc.SubCategoryId))?" btn-outline-warning":"" )">
+                            @sc.SubCategoryName
+                        </a>
+                    }
+                }
+                else
+                {
+                    <a data-sub_cate_id=""
+                       class="filter-sub_cate_id border shadow-sm  rounded-pill me-4 btn @(Model.IsFilterByCompletedCourses?" btn-outline-warning":"" )">
+                        In Progress
+                    </a>
+                    <a data-sub_cate_id=""
+                       class="filter-sub_cate_id border shadow-sm  rounded-pill me-4 btn @(!Model.IsFilterByCompletedCourses?" btn-outline-warning":"" )">
+                        Completed
+                    </a>
+                }
+            </div>
+
+
+
+        </div>
+        <div class="row d-flex justify-content-center" id="courses_content">
+            @await Component.InvokeAsync("CourseList",
+                     Model.EnrolledCourses == null ?
+                     new
+                     {
+                         cateId = Model.CateId,
+                         subCateId = Model.SubCateId,
+                         pageIndex = Model.PageIndex,
+                         levels = Model.Levels,
+                         rating = Model.Rating,
+                         price = Model.Price,
+                         sortBy = Model.SortBy
+                     } :
+                     new
+                     {
+                         pageIndex = Model.PageIndex,
+                         courseList = Model.EnrolledCourses,
+                     })
+        </div>
+
+        @await Html.PartialAsync("../../Shared/Partials/Student/_Pagging.cshtml", new ViewDataDictionary(ViewData) { { "currentPageIndex", Model.PageIndex } })
+
+
+
+
+
+
+    </div>
+
+
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                let href = @Html.Raw(Json.Serialize(href));
+                const pageIndex = @Html.Raw(Json.Serialize(Model.PageIndex));
+                const subCateId = @Html.Raw(Json.Serialize(Model.SubCateId));
+
+                $(".filter-sub_cate_id").click(function () {
+                    let currentSubCateId = $(this).data("sub_cate_id")
+                    if (subCateId) {
+                        href = href.replace(`SubCateId=${subCateId}`, `SubCateId=${currentSubCateId}`);
+
+                    } else {
+                        href += `&SubCateId=${currentSubCateId}`
+                    }
+                    window.location.href = href
+
+                })
+                $(".pagging-course").click(function () {
+
+                    let currentPageIndex = $(this).data("page_index")
+                    href = href.replace(`PageIndex=${pageIndex}`, `PageIndex=${currentPageIndex}`);
+                    window.location.href = href
+                })
+
+                $('#toggleGrid').click(function () {
+                    debugger
+                    $(this).css('color', '#ffca2c');
+                    $('#toggleList').css('color', 'black');
+
+                    $('.course-item').each(function () {
+                        $(this).removeClass('list-view')
+                    })
+                    $('.card').removeClass('d-flex flex-row')
+                })
+                $('#toggleList').click(function () {
+                    $(this).css('color', '#ffca2c');
+                    $('#toggleGrid').css('color', 'black');
+
+                    $('.course-item').map(function () {
+                        $(this).addClass('list-view')
+                    })
+                    $('.card').addClass('p-3 d-flex flex-row justify-content-between')
+
+                })
+            })
+            @* var connection = new signalR.HubConnectionBuilder().withUrl("/movieHub").build();
+            connection.start();
+
+            function onDelete(movieId) {
+            connection.invoke("DeleteMovie", movieId);
+            }
+
+            connection.on("LoadMovie", (deleteId) => {
+            const element = document.getElementById(deleteId);
+            element.remove();
+            //location.reload();
+            }); *@
+
+        </script>
+
+    }
+
+
+
+
+
+
+
+
+</body>

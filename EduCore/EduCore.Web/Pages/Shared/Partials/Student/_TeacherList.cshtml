@@ -1,0 +1,37 @@
+﻿@using EduCore.Domain.DTOs
+@model List<InstructorDTO>
+@foreach (var i in Model)
+{
+    <a href="/Student/Instructor/Detail?insId=@i.UserId">
+        <div class="shadow-lg  rounded position-relative vesitable-item">
+            <div class="vesitable-img">
+                <img src="@i.UrlImage" class="img-fluid w-100 rounded-top" alt="">
+            </div>
+            @if (i.Rating >= (decimal)4.7)
+            {
+                <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Best instructor</div>
+
+            }
+            <div class="p-4 rounded-bottom">
+                <h4>@i.FullName</h4>
+
+                <span>
+                    @i.SubCategoryDetails.Select(sc => sc.SubCategoryName).Aggregate((s1, s2) => s1 + ", " + s2)
+                </span>
+
+
+                <div class=" mt-3 mb-1">
+                    <span class="badge text-muted bg-success d-inline">@i.NumberStudent students</span>
+                    <span class="badge text-muted bg-success d-inline">@i.NumberCourse courses</span>
+                    <span class="badge text-muted bg-success d-inline">
+                        @i.Rating<span>
+                            <i class="fas fa-star text-primary"></i>
+                        </span> rating
+                    </span>
+
+                </div>
+            </div>
+        </div>
+    </a>
+
+}

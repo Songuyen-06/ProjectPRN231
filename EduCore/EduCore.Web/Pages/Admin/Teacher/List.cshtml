@@ -1,0 +1,217 @@
+﻿@page "/Admin/Teacher/List"
+@model EduCore.Web.Pages.Admin.Teacher.ListModel
+@{
+    Layout = "../../Shared/Layouts/Admin/_Layout.cshtml";
+}
+<body>
+    <div>
+        <div class="card-header">
+
+            <div class="row col-md-12">
+
+                <div class="col-md-2 mb-2 pt-2">
+                    <select asp-for="@Model.CategoryId"
+                            id="categoryFilter"
+                            class="form-control">
+                        <option value="">Select Category</option>
+                        @foreach (var c in Model.CateList)
+                        {
+                            <option value="@c.CategoryId">@c.CategoryName</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-2 mb-2 pt-2">
+                    <select asp-for="@Model.SubCategoryId" id="subCategoryFilter" class="form-control">
+                        <option value="">Select Subcategory</option>
+                        @if (Model.CategoryId != null)
+                        {
+                            @foreach (var sub in Model.CateList.FirstOrDefault(c => c.CategoryId == Model.CategoryId).SubCategories)
+                            {
+                                <option value="@sub.SubCategoryId">@sub.SubCategoryName</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-2 mb-2 pt-2">
+                    <select asp-for="@Model.Rating"
+                            id="ratingFilter"
+                            class="form-control">
+                        <option value="">Select Rating</option>
+                        <option value="5">5</option>
+                        <option value="4">4</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 mb-2 pt-2">
+                    <select asp-for="@Model.Status"
+                            id="statusFilter"
+                            class="form-control">
+                        <option value="">Select Status</option>
+                        <option value="active">Active</option>
+                        <option value="disactive">Disactive</option>
+
+                    </select>
+                </div>
+
+                <div class="col-md-2 mb-2 pt-2">
+                    <select asp-for="@Model.SortBy"
+                            id="sortInstructor"
+                            class="form-control">
+                        <option value="">Sort By</option>
+                        <option value="rating">Rating</option>
+                        <option value="monthRevenue">Current month revenue</option>
+                        <option value="studentEnroll">Number student enroll</option>
+                        <option value="numberCourse">Number course</option>
+                    </select>
+                </div>
+
+                <div class="row col-md-2 mb-2 pt-1" style="padding-top: 0 !important;">
+                    <button id="filterBtn" class="btn btn-primary m-2  ">Apply </button>
+                    <a id="filterClearBtn" href="./List" class="btn btn-primary m-2">Clear </a>
+                </div>
+
+            </div>
+
+
+            <div class="row col-md-12 d-flex align-items-center justify-content-center">
+                <form method="get" class="d-flex w-75 ">
+                    <input type="text" name="searchInfo" class="form-control me-2" placeholder="Search instructor by Id ,Name ,Email,Phone" />
+                    <button id="instructor_search_btn" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+
+
+
+
+
+            <div class="card-body">
+                <div class="table-responsive table-bordered text-center">
+                    <table id="example" class="table table-striped table-bordered second" style="width:100%">
+                        <thead>
+                            <tr>
+
+                                <th>Instructor Id</th>
+                                <th>Instructor Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Password</th>
+                                <th>Bio</th>
+                                <th>Rating</th>
+                                <th>Numer student enroll</th>
+                                <th>Numer course</th>
+                                <th>Specialize </th>
+                                <th>Current month revenue </th>
+                                <th>Status </th>
+                                <th> </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (InstructorDTO teacher in Model.Instructors)
+                            {
+                                <tr>
+                                    <td>@teacher.UserId</td>
+                                    <td>@teacher.FullName</td>
+                                    <td>@teacher.Email</td>
+                                    <td>@teacher.Phone</td>
+                                    <td>@teacher.Password</td>
+                                    <td>@teacher.Bio</td>
+                                    <td class="d-flex flex-nowrap m-5  ">
+                                        @teacher.Rating <span style="font-size: 14px;">⭐</span>
+                                    </td>
+                                    <td>@teacher.NumberStudent</td>
+                                    <td>@teacher.NumberCourse</td>
+                                    <td>
+                                        @foreach (var subCate in teacher.SubCategoryDetails)
+                                        {
+                                            <span>@subCate.SubCategoryName</span>
+
+                                            <br />
+                                        }
+                                    </td>
+                                    <td>@teacher.CurrentMonthRevenue.GetValueOrDefault().ToString("N0") Vnd</td>
+
+
+                                    <td class="my-2">
+                                        <span class="@(teacher.IsActive?"text-success":"text-danger")">@((teacher.IsActive) ? "Active" : "Disactive")</span>
+                                        <a id="set_status_instructor"
+                                           date-instructor-id="@teacher.UserId"
+                                           data-is-active="@teacher.IsActive"
+                                           href="./List?InstructorId=@teacher.UserId&IsActive=@teacher.IsActive"
+                                           class="btn btn-sm btn-primary">
+                                            Toggle
+                                        </a>
+                                    </td>
+                                    <td><a href="./Detail?instructorId=@teacher.UserId">Detail</a></td>
+                                    <td><a href="./">Delete</a></td>
+
+                                </tr>
+
+                            }
+
+
+
+                        </tbody>
+                      
+                    </table>
+                </div>
+            </div>
+        </div>
+        @section Scripts {
+            <script>
+                $(document).ready(function () {
+                    var categories = @Html.Raw(Json.Serialize(Model.CateList));
+                    debugger;
+                    $('#categoryFilter').change(function () {
+                        var cateId = $(this).val();
+
+                        if (!cateId) {
+                            $('#subCategoryFilter').html('<option value="">Select Subcategory</option>');
+                            return;
+                        }
+
+                        var subCategories = categories.filter(function (category) {
+                            return category.categoryId == cateId;
+                        }).map(function (category) {
+                            return category.subCategories;
+                        }).flat();
+
+                        $('#subCategoryFilter').empty();
+                        $('#subCategoryFilter').append('<option value="">Select Subcategory</option>');
+
+                        subCategories.forEach(function (subCategory) {
+                            $('#subCategoryFilter').append('<option value="' + subCategory.subCategoryId + '">' + subCategory.subCategoryName + '</option>');
+                        });
+                    });
+
+                    $('#filterBtn').click(function () {
+                        var categoryId = $('#categoryFilter').val();
+                        var subCategoryId = $('#subCategoryFilter').val();
+                        var rating = $('#ratingFilter').val();
+                        var status = $('#statusFilter').val();
+                        var sortBy = $('#sortInstructor').val();
+                        window.location.href = `./List?CategoryId=${categoryId}&SubCategoryId=${subCategoryId}&Rating=${rating}&Status=${status}&SortBy=${sortBy}`;
+
+                    });
+
+
+
+                    var connection = new signalR.HubConnectionBuilder().withUrl("/hub").build();
+
+                    connection.on("LoadAll", (instructorId, status) => {
+                        alert(`Instructor with Id=${instructorId} set status is ${status}`);
+                        location.reload();
+                    });
+
+                    connection.start().catch(err => console.error(err.toString()));
+                })
+
+            </script>
+
+        }
+</body>

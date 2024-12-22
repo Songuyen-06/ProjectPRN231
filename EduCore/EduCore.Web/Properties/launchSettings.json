@@ -1,0 +1,29 @@
+﻿{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:31726",
+      "sslPort": 44312
+    }
+  },
+  "profiles": {
+    "EduCore.Web": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchUrl": "Student",
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:7187;http://localhost:5287;https://sondev.local:7187",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

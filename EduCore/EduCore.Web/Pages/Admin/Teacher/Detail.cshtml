@@ -1,0 +1,682 @@
+﻿@page
+@model EduCore.Web.Pages.Admin.Teacher.DetailModel
+@{
+    Layout = "../../Shared/Layouts/Admin/_Layout.cshtml";
+}
+<!doctype html>
+<html lang="en">
+
+
+
+
+<body>
+
+    <div class="">
+
+        <div class="container-fluid  dashboard-content">
+            <!-- ============================================================== -->
+            <!-- pagehader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h1 class="mb-2">Infor detai instructor </h1>
+                        <p class="pageheader-text">Lorem ipsum dolor sit ametllam fermentum ipsum eu porta consectetur adipiscing elit.Nullam vehicula nulla ut egestas rhoncus.</p>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <h3>
+                                    <li class="breadcrumb-item"><a href="/Admin/Teacher" class="breadcrumb-link">Instructor list > </a></li>
+                                    </h3>
+
+                                    <h3>
+                                    <li class="breadcrumb-item active" aria-current="page"> @Model.Instructor.FullName<span>(ID:@Model.Instructor.UserId)</span></li>
+
+                                    </h3>
+
+
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- pagehader  -->
+            <!-- ============================================================== -->
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <section style="background-color: #f4f5f7;">
+                        <div class="container py-5 h-100 w-100 ">
+                            <div class="row d-flex justify-content-center align-items-center h-100">
+                                <div class="col col-lg-12 mb-4 mb-lg-0">
+                                    <div class="card mb-3" style="border-radius: .5rem;">
+                                        <p></p>
+                                        <form method="post" >
+
+                                            <div class="row g-0">
+                                                <div class="col-md-4 gradient-custom text-center text-white"
+                                                     style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                                                    <img src="@Model.Instructor.UrlImage"
+                                                         alt="Avatar"
+                                                         class="img-fluid my-5 rounded-circle"
+                                                         style="width: 100px; height: 100px;" />
+                                                    <input asp-for="@Model.UpdatedUser.RoleId" value="2" type="hidden" />
+
+                                                    <input asp-for="@Model.UpdatedUser.UserId" value="@Model.Instructor.UserId" type="hidden" />
+
+                                                    <input asp-for="@Model.UpdatedUser.UrlImage" value="@Model.Instructor.UrlImage" type="hidden" />
+
+                                                    <h5>@Model.Instructor.FullName</h5>
+                                                    <input asp-for="@Model.UpdatedUser.FullName" value="@Model.Instructor.FullName" type="hidden" />
+
+                                                    <div class="d-flex justify-content-center">
+                                                        <button type="reset" class="btn btn-secondary me-2 mx-2">Reset</button>
+
+                                                        <button type="submit" class="btn btn-primary mx-2">Update</button>
+                                                    </div>
+                                                    <i class="far fa-edit mb-5"></i>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="card-body p-4">
+                                                        <h6>Information</h6>
+                                                        <hr class="mt-0 mb-4">
+                                                        <div class="row pt-1">
+                                                            <div class="col-6 mb-3">
+                                                                <h6>Email</h6>
+                                                                <input asp-for="@Model.UpdatedUser.Email" value="@Model.Instructor.Email" type="text" class="text-muted" />
+                                                            </div>
+                                                            <div class="col-6 mb-3">
+                                                                <h6>Phone</h6>
+                                                                <input asp-for="@Model.UpdatedUser.Phone" value="@Model.Instructor.Phone" type="tel" class="text-muted" />
+                                                            </div>
+                                                        </div>
+
+                                                        <hr class="mt-0 mb-4">
+
+                                                        <div class="row pt-1">
+                                                            <div class="col-6 mb-3">
+                                                                <h6>Password</h6>
+                                                                <div class="input-group">
+                                                                    <input asp-for="@Model.UpdatedUser.Password" type="password" class="form-control text-muted" value="@Model.Instructor.Password" />
+                                                                    <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">
+                                                                        <i id="eye-icon" class="fa fa-eye"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 mb-3">
+                                                                <h6>Bio</h6>
+                                                                <input asp-for="UpdatedUser.Bio" value="@Model.Instructor.Bio" class="form-control text-muted" style="height: 50px; width: 100%;" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="">
+                                                            <a href="#!"><i class="fab fa-facebook-f fa-lg px-2"></i></a>
+                                                            <a href="#!"><i class="fab fa-twitter fa-lg px-2"></i></a>
+                                                            <a href="#!"><i class="fab fa-instagram fa-lg px-2"></i></a>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                </section>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="row">
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="text-muted">Course Number  </h5>
+                        <div class="metric-value d-inline-block">
+                            <h1 class="mb-1 text-primary">@Model.Instructor.Courses.Count() course </h1>
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div id="sparkline-2"></div>
+                </div>
+            </div>
+
+            <!-- metric -->
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="text-muted">Current month enrolled student</h5>
+                        @{
+                            int currentMonthEnrollment = Model.EnrollmentList
+                            .Where(en => en.EnrollmentDate.Value.Year == DateTime.Now.Year
+                            && en.EnrollmentDate.Value.Month == DateTime.Now.Month)
+                            .Count();
+
+                            int previousMonthEnrollment = Model.EnrollmentList
+                            .Where(en => en.EnrollmentDate.Value.Year == DateTime.Now.Year
+                            && en.EnrollmentDate.Value.Month == DateTime.Now.Month - 1)
+                            .Count();
+
+                            double percentageIncrease = previousMonthEnrollment > 0
+                            ? ((double)(currentMonthEnrollment - previousMonthEnrollment) / previousMonthEnrollment) * 100
+                            : 0;
+                        }
+                        <div class="metric-value d-inline-block">
+                            <h1 class="mb-1 text-primary">
+                                @currentMonthEnrollment <span>student</span>
+                            </h1>
+                        </div>
+
+                        <div class="metric-label d-inline-block float-right @(percentageIncrease >= 0 ? "text-success" : "text-danger")">
+                            <i class="fa fa-fw @(percentageIncrease >= 0 ? "fa-caret-up" : "fa-caret-down")"></i>
+                            <span>@percentageIncrease.ToString("0.00")%</span>
+                        </div>
+
+                    </div>
+                    <div id="sparkline-1"></div>
+                </div>
+            </div>
+
+            @{
+                decimal? currentMonthRevenue = Model.MonthsRevenueOfCurrentYear?.FirstOrDefault(r => r.Month == DateTime.Now.Month)?.Amount;
+                decimal? previousMonthRevenue = Model.MonthsRevenueOfCurrentYear?.FirstOrDefault(r => r.Month == DateTime.Now.Month - 1)?.Amount;
+
+                decimal percentageIncreaseMonth = 0;
+
+                if (currentMonthRevenue.HasValue && previousMonthRevenue.HasValue && previousMonthRevenue > 0)
+                {
+                    percentageIncreaseMonth = ((currentMonthRevenue.Value - previousMonthRevenue.Value) / previousMonthRevenue.Value) * 100;
+                }
+                else
+                {
+                    percentageIncreaseMonth = 0;
+                }
+
+            }
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="text-muted">Current month  revenue</h5>
+                        <div class="metric-value d-inline-block">
+                            <h1 class="mb-1 text-primary">@currentMonthRevenue.GetValueOrDefault().ToString("N0") Vnd</h1>
+                        </div>
+                        <div class="metric-label d-inline-block float-right @(percentageIncreaseMonth >= 0 ? "text-success" : "text-danger")">
+                            <i class="fa fa-fw @(percentageIncreaseMonth >= 0 ? "fa-caret-up" : "fa-caret-down")"></i>
+                            <span>@percentageIncreaseMonth.ToString("0.00")%</span>
+                        </div>
+
+                    </div>
+                    <div id="sparkline-3">
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+
+                <h5 class="card-header">Top Selling Course</h5>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center">
+                            <thead class="bg-light">
+                                <tr class="border-0">
+                                    <th class="border-0">Id</th>
+                                    <th class="border-0">Image</th>
+                                    <th class="border-0">Course Name</th>
+                                    <th class="border-0">Subcategory Name</th>
+                                    <th class="border-0">Level</th>
+                                    <th class="border-0">Rating</th>
+                                    <th class="border-0">Number rating</th>
+                                    <th class="border-0">Price</th>
+                                    <th class="border-0">Sale</th>
+                                    <th class="border-0">Number Enrolled Student </th>
+                                    <th class="border-0">Create time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var c in Model.Instructor.Courses.OrderByDescending(c => c.StudentNumber).Take(3))
+                                {
+
+                                    <tr>
+                                        <td>@c.CourseId</td>
+                                        <td>
+                                            <div class="m-r-10"><img src="@c.Url" alt="user" class="rounded" width="45"></div>
+                                        </td>
+                                        <td>@c.Title </td>
+                                        <td>@c.SubCategoryName </td>
+                                        <td>@c.Level</td>
+                                        <td>
+                                            @c.Rating <span style="font-size: 14px;">⭐</span>
+                                        </td>
+                                        <td>@c.RatingNumber</td>
+                                        <td>@c.Price.Value.ToString("N0") Vnd</td>
+                                        <td>@c.Sale %</td>
+                                        <td>@c.StudentNumber </td>
+                                        <td>@c.CreateTime.GetValueOrDefault().ToString("dd/MM/yyyy") </td>
+                                    </tr>
+                                }
+
+                                <tr>
+                                    <td colspan="8"><a href="#" class="btn btn-outline-light float-right">View Details</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="card col-xl-9 col-lg-12 col-md-4 col-sm-12 col-12">
+                <h5 class="card-header">Monthly Revenue</h5>
+                <div class="card-body">
+                    <canvas id="revenue_teacher" width="500" height="150"></canvas>
+                </div>
+                @if (Model.MonthsRevenueOfCurrentYear?.Count() > 0 && Model.MonthsRevenueOfPreviousYear?.Count > 0)
+                {
+
+                    decimal? currentYearRevenue = Model.MonthsRevenueOfCurrentYear?.Sum(r => r.Amount);
+                    decimal? previousYearRevenue = Model.MonthsRevenueOfPreviousYear?.Sum(r => r.Amount);
+
+                    decimal percentageIncreaseYear = 0;
+                    if (previousYearRevenue.HasValue && currentYearRevenue.HasValue)
+                    {
+                        percentageIncreaseYear = previousYearRevenue.Value > 0
+                        ? ((currentYearRevenue.Value - previousYearRevenue.Value) / previousYearRevenue.Value) * 100
+                        : 0;
+                    }
+
+
+                    <div class="card-body border-top">
+                        <div class="row">
+                            <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 p-3">
+                                <h4> This Current  Month's Earning(@DateTime.Now.ToString("MM/yyyy")): @(Model.MonthsRevenueOfCurrentYear?.FirstOrDefault(r => r.Month == DateTime.Now.Month).Amount.GetValueOrDefault().ToString("N0"))Vnd</h4>
+                            </div>
+
+                            <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 p-3">
+                                <h2 class="font-weight-normal mb-3"><span>@currentYearRevenue.GetValueOrDefault().ToString("N0") Vnd</span></h2>
+                                <div class="mb-0 mt-3 legend-item">
+                                    <span class="fa-xs text-primary mr-1 legend-title"><i class="fa fa-fw fa-square-full"></i></span>
+                                    <span class="legend-text">Current Year(@DateTime.Now.Year)</span>
+
+                                    <i class="fa fa-fw @(percentageIncreaseYear >= 0 ? "fa-caret-up" : "fa-caret-down")"></i>
+                                    <span class="@(percentageIncreaseYear >= 0 ? "text-success" : "text-danger")"> @percentageIncreaseYear.ToString("0.00")%</span>
+
+                                </div>
+                            </div>
+                            <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 p-3">
+                                <h2 class="font-weight-normal mb-3"><span>@previousYearRevenue.GetValueOrDefault().ToString("N0") Vnd</span></h2>
+                                <div class="text-muted mb-0 mt-3 legend-item">
+                                    <span class="fa-xs text-secondary mr-1 legend-title"><i class="fa fa-fw fa-square-full"></i></span>
+                                    <span class="legend-text">Previous Year(@(DateTime.Now.Year - 1))</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- end reveune  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- total sale  -->
+            <!-- ============================================================== -->
+            <div class="col-xl-3 col-lg-12 col-md-4 col-sm-12 col-12">
+                <div class="card">
+                    <h5 class="card-header">Total Sale</h5>
+                    <div class="card-body">
+                        <canvas id="total-sale" width="220" height="155"></canvas>
+
+                        <div class="chart-widget-list">
+                            <p>
+                                <span class="fa-xs  mr-1 legend-title" style="color:#4BC0C0">
+                                    <i class="fa fa-fw fa-square-full"></i>
+                                </span>
+                                <span class="legend-text"> Solded course </span>
+                                <span class="float-right">@Model.Instructor.Courses.Where(c => c.StudentNumber != 0).ToList().Count() course</span>
+                            </p>
+                            <p>
+                                <span class="fa-xs  mr-1 legend-title" style="color:#FF6384">
+                                    <i class="fa fa-fw fa-square-full"></i>
+                                </span>
+                                <span class="legend-text">Unsold course</span>
+                                <span class="float-right">@Model.Instructor.Courses.Where(c => c.StudentNumber == 0).ToList().Count() course</span>
+                            </p>
+                            <p>
+                                <span class="fa-xs  mr-1 legend-title"><i class="fa fa-fw fa-square-full"></i> </span>
+                                <span class="legend-text">Total course</span>
+                                <span class="float-right">@Model.Instructor.Courses.Count() course</span>
+                            </p>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end total sale  -->
+            <!-- ============================================================== -->
+        </div>
+        <div class="row">
+            <!-- ============================================================== -->
+            <!-- top selling products  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- end top selling products  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- revenue locations  -->
+            <!-- ============================================================== -->
+            @*   <div class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+            <h5 class="card-header">Revenue by Location</h5>
+            <div class="card-body">
+            <div id="locationmap" style="width:100%; height:200px"></div>
+            </div>
+            <div class="card-body border-top">
+            <div class="row">
+            <div class="col-xl-6">
+            <div class="sell-ratio">
+            <h5 class="mb-1 mt-0 font-weight-normal">New York</h5>
+            <div class="progress-w-percent">
+            <span class="progress-value">72k </span>
+            <div class="progress progress-sm">
+            <div class="progress-bar" role="progressbar" style="width: 72%;" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            </div>
+            </div>
+            </div>
+            <div class="col-xl-6">
+            <div class="sell-ratio">
+            <h5 class="mb-1 mt-0 font-weight-normal">San Francisco</h5>
+            <div class="progress-w-percent">
+            <span class="progress-value">39k</span>
+            <div class="progress progress-sm">
+            <div class="progress-bar" role="progressbar" style="width: 39%;" aria-valuenow="39" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            </div>
+            </div>
+            </div>
+            <div class="col-xl-6">
+            <div class="sell-ratio">
+            <h5 class="mb-1 mt-0 font-weight-normal">Sydney</h5>
+            <div class="progress-w-percent">
+            <span class="progress-value">25k </span>
+            <div class="progress progress-sm">
+            <div class="progress-bar" role="progressbar" style="width: 39%;" aria-valuenow="39" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            </div>
+            </div>
+            </div>
+            <div class="col-xl-6">
+            <div class="sell-ratio">
+            <h5 class="mb-1 mt-0 font-weight-normal">Singapore</h5>
+            <div class="progress-w-percent mb-0">
+            <span class="progress-value">61k </span>
+            <div class="progress progress-sm">
+            <div class="progress-bar" role="progressbar" style="width: 61%;" aria-valuenow="61" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div> *@
+            <!-- ============================================================== -->
+            <!-- end revenue locations  -->
+            <!-- ============================================================== -->
+        </div>
+        <div class="row">
+            <div class="col-xl-5 col-lg-6 col-md-6 col-sm-12 col-12">
+                <!-- ============================================================== -->
+                <!-- social source  -->
+                <!-- ============================================================== -->
+                @*  <div class="card">
+                <h5 class="card-header"> Sales By Social Source</h5>
+                <div class="card-body p-0">
+                <ul class="social-sales list-group list-group-flush">
+                <li class="list-group-item social-sales-content">
+                <span class="social-sales-icon-circle facebook-bgcolor mr-2"><i class="fab fa-facebook-f"></i></span><span class="social-sales-name">Facebook</span><span class="social-sales-count text-dark">120 Sales</span>
+                </li>
+                <li class="list-group-item social-sales-content">
+                <span class="social-sales-icon-circle twitter-bgcolor mr-2"><i class="fab fa-twitter"></i></span><span class="social-sales-name">Twitter</span><span class="social-sales-count text-dark">99 Sales</span>
+                </li>
+                <li class="list-group-item social-sales-content">
+                <span class="social-sales-icon-circle instagram-bgcolor mr-2"><i class="fab fa-instagram"></i></span><span class="social-sales-name">Instagram</span><span class="social-sales-count text-dark">76 Sales</span>
+                </li>
+                <li class="list-group-item social-sales-content">
+                <span class="social-sales-icon-circle pinterest-bgcolor mr-2"><i class="fab fa-pinterest-p"></i></span><span class="social-sales-name">Pinterest</span><span class="social-sales-count text-dark">56 Sales</span>
+                </li>
+                <li class="list-group-item social-sales-content">
+                <span class="social-sales-icon-circle googleplus-bgcolor mr-2"><i class="fab fa-google-plus-g"></i></span><span class="social-sales-name">Google Plus</span><span class="social-sales-count text-dark">36 Sales</span>
+                </li>
+                </ul>
+                </div>
+                <div class="card-footer text-center">
+                <a href="#" class="btn-primary-link">View Details</a>
+                </div>
+                </div> *@
+                <!-- ============================================================== -->
+                <!-- end social source  -->
+                <!-- ============================================================== -->
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                <!-- ============================================================== -->
+                <!-- sales traffice source  -->
+                <!-- ============================================================== -->
+                @*  <div class="card">
+                <h5 class="card-header"> Sales By Traffic Source</h5>
+                <div class="card-body p-0">
+                <ul class="traffic-sales list-group list-group-flush">
+                <li class="traffic-sales-content list-group-item ">
+                <span class="traffic-sales-name">Direct</span><span class="traffic-sales-amount">$4000.00  <span class="icon-circle-small icon-box-xs text-success ml-4 bg-success-light"><i class="fa fa-fw fa-arrow-up"></i></span><span class="ml-1 text-success">5.86%</span></span>
+                </li>
+                <li class="traffic-sales-content list-group-item">
+                <span class="traffic-sales-name">
+                Search<span class="traffic-sales-amount">$3123.00  <span class="icon-circle-small icon-box-xs text-success ml-4 bg-success-light"><i class="fa fa-fw fa-arrow-up"></i></span><span class="ml-1 text-success">5.86%</span></span>
+                </span>
+                </li>
+                <li class="traffic-sales-content list-group-item">
+                <span class="traffic-sales-name">
+                Social<span class="traffic-sales-amount ">$3099.00  <span class="icon-circle-small icon-box-xs text-success ml-4 bg-success-light"><i class="fa fa-fw fa-arrow-up"></i></span><span class="ml-1 text-success">5.86%</span></span>
+                </span>
+                </li>
+                <li class="traffic-sales-content list-group-item">
+                <span class="traffic-sales-name">
+                Referrals<span class="traffic-sales-amount ">$2220.00   <span class="icon-circle-small icon-box-xs text-danger ml-4 bg-danger-light"><i class="fa fa-fw fa-arrow-down"></i></span><span class="ml-1 text-danger">4.02%</span></span>
+                </span>
+                </li>
+                <li class="traffic-sales-content list-group-item ">
+                <span class="traffic-sales-name">
+                Email<span class="traffic-sales-amount">$1567.00   <span class="icon-circle-small icon-box-xs text-danger ml-4 bg-danger-light"><i class="fa fa-fw fa-arrow-down"></i></span><span class="ml-1 text-danger">3.86%</span></span>
+                </span>
+                </li>
+                </ul>
+                </div>
+                <div class="card-footer text-center">
+                <a href="#" class="btn-primary-link">View Details</a>
+                </div>
+                </div> *@
+            </div>
+            <!-- ============================================================== -->
+            <!-- end sales traffice source  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- sales traffic country source  -->
+            <!-- ============================================================== -->
+            @*  <div class="col-xl-3 col-lg-12 col-md-6 col-sm-12 col-12">
+            <div class="card">
+            <h5 class="card-header">Sales By Country Traffic Source</h5>
+            <div class="card-body p-0">
+            <ul class="country-sales list-group list-group-flush">
+            <li class="country-sales-content list-group-item">
+            <span class="mr-2"><i class="flag-icon flag-icon-us" title="us" id="us"></i> </span>
+            <span class="">United States</span><span class="float-right text-dark">78%</span>
+            </li>
+            <li class="list-group-item country-sales-content">
+            <span class="mr-2"><i class="flag-icon flag-icon-ca" title="ca" id="ca"></i></span><span class="">Canada</span><span class="float-right text-dark">7%</span>
+            </li>
+            <li class="list-group-item country-sales-content">
+            <span class="mr-2"><i class="flag-icon flag-icon-ru" title="ru" id="ru"></i></span><span class="">Russia</span><span class="float-right text-dark">4%</span>
+            </li>
+            <li class="list-group-item country-sales-content">
+            <span class=" mr-2"><i class="flag-icon flag-icon-in" title="in" id="in"></i></span><span class="">India</span><span class="float-right text-dark">12%</span>
+            </li>
+            <li class="list-group-item country-sales-content">
+            <span class=" mr-2"><i class="flag-icon flag-icon-fr" title="fr" id="fr"></i></span><span class="">France</span><span class="float-right text-dark">16%</span>
+            </li>
+            </ul>
+            </div>
+            <div class="card-footer text-center">
+            <a href="#" class="btn-primary-link">View Details</a>
+            </div>
+            </div>
+            </div> *@
+            <!-- ============================================================== -->
+            <!-- end sales traffice country source  -->
+            <!-- ============================================================== -->
+        </div>
+    </div>
+
+
+    </div>
+    @section Scripts {
+
+        <script>
+            $(document).ready(function () {
+
+                function togglePassword() {
+                    var $passwordField = $('#password');
+                    var $eyeIcon = $('#eye-icon');
+
+                    if ($passwordField.attr('type') === 'password') {
+                        $passwordField.attr('type', 'text');
+                        $eyeIcon.removeClass('fa-eye').addClass('fa-eye-slash');
+                    } else {
+                        $passwordField.attr('type', 'password');
+                        $eyeIcon.removeClass('fa-eye-slash').addClass('fa-eye');
+                    }
+                }
+
+
+                const pieChart = $('#total-sale');
+
+                const soldCourses = @Html.Raw(Model.Instructor.Courses.Where(c => c.StudentNumber != 0).ToList().Count());
+                const unsoldCourses = @Html.Raw(Model.Instructor.Courses.Where(c => c.StudentNumber == 0).ToList().Count());
+
+                const totalCourses = soldCourses + unsoldCourses;
+
+                const data = [
+                    ((soldCourses / totalCourses) * 100).toFixed(2),
+                    ((unsoldCourses / totalCourses) * 100).toFixed(2)
+                ];
+
+                const courseSalesPieChart = new Chart(pieChart, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Solded Courses', 'Unsold Courses'],
+                        datasets: [{
+                            label: 'Percentage course',
+                            data: data,
+                            backgroundColor: ['#4BC0C0', '#FF6384'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        const value = context.dataset.data[context.dataIndex];
+                                        return `${context.label}: ${context.raw.toFixed(2)}%`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+                const ctx = $('#revenue_teacher');
+
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                const revenueCurrentYear = Array(12).fill(0);
+                const revenuePreviousYear = Array(12).fill(0);
+
+                const currentYearData = @Html.Raw(Json.Serialize(Model.MonthsRevenueOfCurrentYear));
+                const previousYearData = @Html.Raw(Json.Serialize(Model.MonthsRevenueOfPreviousYear));
+
+                currentYearData.forEach(item => {
+                    const monthIndex = parseInt(item.month) - 1; 
+                    revenueCurrentYear[monthIndex] = item.amount;
+                });
+
+                previousYearData.forEach(item => {
+                    const monthIndex = parseInt(item.month) - 1; 
+                    revenuePreviousYear[monthIndex] = item.amount;
+                });
+
+
+                const revenueChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: monthNames,
+                        datasets: [
+                            {
+                                label: 'Current Monthly Revenue',
+                                data: revenueCurrentYear,
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 2,
+                                fill: true
+                            },
+                            {
+                                label: 'Previous Monthly Revenue',
+                                data: revenuePreviousYear,
+                                backgroundColor: 'rgba(255, 64, 123, 0.2)',
+                                borderColor: 'rgba(255, 64, 123, 1)',
+                                borderWidth: 2,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+            })
+        </script>
+
+    }
+</body>
+
+</html>

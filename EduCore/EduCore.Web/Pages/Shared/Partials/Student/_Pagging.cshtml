@@ -1,0 +1,22 @@
+﻿@{
+    var totalPage = (int)TempData["TotalPage"];
+    var currentPageIndex = (int)ViewData["currentPageIndex"];
+
+}
+
+<div class="pagination d-flex justify-content-center align-items-center">
+    <div class="col-md-3 ">
+        <p class="text-muted  ">@((int)TempData["FilterResult"]) result</p>
+    </div>
+    @for (int i = 1; i <= totalPage; i++)
+    {
+
+        <a data-page_index="@i"
+           class="pagging-course shadow-sm mt-2 rounded-pill me-4  border-0
+        btn @(currentPageIndex == i ? "btn-warning" : "")">
+            @(i.Equals(totalPage) ? "Last" : i)
+        </a>
+
+
+    }
+</div>

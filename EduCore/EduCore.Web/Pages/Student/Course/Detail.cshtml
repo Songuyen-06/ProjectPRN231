@@ -1,0 +1,398 @@
+﻿@page
+@model EduCore.Web.Pages.Student.Course.DetailModel
+@{
+    Layout = "../../Shared/Layouts/Student/_Layout";
+    var c = @Model.CourseDetail;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+
+    <div class="container py-5 w-100">
+
+
+        <div class="row container-fluid ">
+            <div class="row col-lg-12 ">
+
+                <div class="border rounded col-lg-8">
+                    <a href="#">
+
+                        <iframe src="@c.Url"
+                                class="w-100 h-100" allow="autoplay"></iframe>
+
+
+                    </a>
+                </div>
+
+                <div class="col-lg-4 p-5  rounded" style="background-color:#f5f5f5">
+                    <h4 class="fw-bold mb-3 text-nowrap ">@c.Title</h4>
+                    <p class="mb-3">
+                        Category: @c.SubCategoryName
+                        <h5 class="fw-bold mb-3">@c.Rating rating </h5>
+
+                        <div class="d-flex mb-4">
+                            <span class="rating d-flex align-items-center mb-2">
+                                @{
+                                    var floorStars = (int)Math.Floor(c.Rating ?? 0);
+                                    var halfStar = @c.Rating % 1 >= 0.5m;
+                                    var totalStars = 5;
+                                }
+                                @for (var i = 0; i < floorStars; i++)
+                                {
+                                    <i class="fas fa-star text-primary"></i>
+                                }
+                                @{
+                                    if (halfStar)
+                                    {
+                                        <i class="fas fa-star-half-alt text-primary"></i>
+                                    }
+                                }
+                                @for (var i = 0; i < totalStars - (floorStars + (halfStar ? 1 : 0)); i++)
+                                {
+                                    <i class="far fa-star text-primary"></i>
+                                }
+
+                            </span>
+                        </div>
+
+                    <p class="mb-4">By @c.InstructorName'teacher</p>
+
+                    <div class=" mt-3 mb-1">
+                        <span class="badge text-muted bg-success d-inline">@c.RatingNumber rating</span>
+                        <span class="badge text-muted bg-success d-inline">@c.StudentNumber student</span>
+
+
+                    </div>
+                    <div class="mt-5">
+                        <h5 class="text-nowrap text-muted">
+                                @if (c.Price > 0)
+                                {
+                                    @c.PriceAfterSale?.ToString("N0")
+                                    ;
+                                <span>vnd</span>
+                                <span class="fs-6  text-black opacity-25 text-decoration-line-through">
+                                        @c.Price?.ToString("N0")
+                                </span>
+                                <span><h6 class="d-inline">-@c.Sale%</h6></span>
+                                }
+                                else
+                                {
+                                <span>Free</span>
+                                }
+                        </h5>
+                    </div>
+                    <div class="d-flex flex-wrap  mt-4">
+                        <a href="~/Student/Course/Checkout?courseId=@c.CourseId" class="btn btn-outline-dark text-capitalize me-2 px-2 py-3">Enroll Now</a>
+                        <a href="#" class="btn btn-outline-dark text-capitalize me-2">
+                            <iconify-icon icon="mdi:heart-outline" class="fs-5 pt-1"></iconify-icon>
+                        </a>
+                        <a href="#" class="btn btn-outline-dark text-capitalize">
+                            <iconify-icon icon="mdi:cart-outline" class="fs-5 pt-1"></iconify-icon>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-12 p-0">
+                <nav>
+                    <div class="nav nav-tabs mb-3">
+                        <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
+                                id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#intro"
+                                aria-controls="nav-about" aria-selected="true">
+                            Descriptions
+                        </button>
+                        <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                                id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#content_course"
+                                aria-controls="nav-mission" aria-selected="false">
+                            Content course
+                        </button>
+                        <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                                id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#info_teacher"
+                                aria-controls="nav-mission" aria-selected="false">
+                            About teacher
+                        </button>
+
+
+
+                        <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                                id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#review_list"
+                                aria-controls="nav-mission" aria-selected="false">
+                            Reviews
+                        </button>
+
+
+                        <button class="nav-link border-white border-bottom-0" type="button"
+                                id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#files_download"
+                                aria-selected="false">
+                            Document
+                        </button>
+
+                    </div>
+                </nav>
+                <div class="tab-content mb-5">
+                    <div class="collapse show" id="intro" role="tabpanel" aria-labelledby="nav-about-tab">
+
+                        <p style="white-space: pre-wrap;">@c.Description</p>
+
+                    </div>
+
+                    <div class="collapse" id="content_course">
+                        <h5 class=" d-flex flex-row shadow border rounded-sm " style="background-color:#f5f5f5">
+                            <div class="d-flex flex-row justify-content-between align-items-center w-50">
+                                <span class="mx-3">@c.SectionNumber sections</span>
+                                <span>@c.SectionNumber lectures</span>
+                                <span>@c.Duration total length</span>
+                            </div>
+
+                            <div class="d-flex justify-content-end  w-50">
+                                <button class="btn btn-lg font-weight-bold "
+                                        type="button"
+                                        id="expand_all_section">
+                                    Expand all
+                                </button>
+                            </div>
+                        </h5>
+
+
+
+
+
+                        @{
+                            var sectionList = c.Sections;
+                            for (int s = 0; s < sectionList.Count; s++)
+                            {
+                                var sectionId = $"section{s}";
+
+                                <button class="btn btn-lg font-weight-bold border p-2 shadow-sm rounded-sm  w-100 d-flex align-content-start px-2"
+                                        type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#@sectionId"
+                                        aria-expanded="@(s==0?true:false)"
+                                        aria-controls="@sectionId"
+                                        style="background-color: #f5f5f5;">
+
+                                    @sectionList[s].Title
+                                    <span class="">____@sectionList[s].Lectures.Count lectures</span>
+                                    <span class="">(@sectionList[s].Duration)</span>
+                                    <i class="d-flex flex-end bi bi-chevron-bar-expand"></i>
+                                    <p>
+                                       
+                                            @if (sectionList[s].IsCompleted)
+                                            {
+                                                <i class="bi bi-check-circle-fill" style="color: green;"></i>
+                                                <span style="color: green; font-weight: bold;">Completed</span>
+                                            }
+                                            else
+                                            {
+                                                <i class="bi bi-circle-fill" style="color: red;"></i>
+                                                <span style="color: red; font-weight: bold;">In progress</span>
+                                            }
+                                       
+                                    </p>
+
+
+                                </button>
+
+                                <ul class="list-group list-lecture collapse @(s==0?"show":"")" id="@sectionId">
+                                    @foreach (var lecture in sectionList[s].Lectures)
+                                    {
+                                        <a href="/Student/Lecture/Detail?courseId=@c.CourseId&lectureId=@lecture.LectureId&courseTitle=@c.Title">
+
+                                        <li class="list-group-item shadow-sm list-group-item-action row m-0">
+                                            <label class="tick text-muted mx-4">
+                                                <b>@lecture.Title</b>
+                                                <span>@lecture.Duration</span>
+                                            </label>
+                                               
+
+                                                    @if (lecture.IsCompleted)
+                                                    {
+                                                    <i class="bi bi-check-circle-fill" style="color: green;"></i>
+                                                    <span style="color: green; font-weight: bold;">Completed</span>
+                                                    }
+                                                    else
+                                                    {
+                                                    <i class="bi bi-circle-fill" style="color: red;"></i>
+                                                    <span style="color: red; font-weight: bold;">In progress</span>
+                                                    }
+                                              
+                                        </li>
+                                        </a>
+                                    }
+                                </ul>
+                            }
+                        }
+                    </div>
+
+
+                    <div class="collapse" id="info_teacher" role="tabpanel">
+                        <section class="w-100 px-4 py-5" style="border-radius: .5rem .5rem 0 0;">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col col-md-12">
+                                    <div class="card" style="border-radius: 15px;">
+                                        <div class="card-body p-4 rounded" style="background-color:#f5f5f5">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0">
+                                                    <img src="@Model.Instructor?.UrlImage"
+                                                         alt="Generic placeholder image" class="img-fluid h-100" style="width: auto; border-radius: 10px;">
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h5 class="mb-1">@Model.Instructor?.FullName</h5>
+                                                    <p class="mb-2 pb-1">@Model.Instructor?.Bio</p>
+                                                    <div class="d-flex justify-content-start rounded-3 p-2 mb-2 bg-body-tertiary">
+                                                        <div>
+                                                            <p class="small text-muted mb-1">Email</p>
+                                                            <p class="mb-0">@Model.Instructor?.Email</p>
+                                                        </div>
+                                                        <div class="px-3">
+                                                            <p class="small text-muted mb-1">Phone</p>
+                                                            <p class="mb-0">@Model.Instructor?.Phone</p>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="d-flex pt-3">
+                                                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary me-1 flex-grow-1">Chat</button>
+                                                        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary flex-grow-1">Follow</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+
+
+
+                    <!-------------------review----------------------------------->
+
+                    <div class="collapse" id="review_list" role="tabpanel" aria-labelledby="nav-mission-tab">
+
+                        @{
+                            ViewData["ReviewList"] = c.Reviews.OrderByDescending(r => r.Rating).ToList();
+                            ViewData["IsSlider"] = false;
+                            ViewData["IsSameCourse"] = true;
+                            @await Html.PartialAsync("../../Shared/Partials/Student/_ReviewList.cshtml")
+
+                        }
+
+
+                        <form action="#">
+                            <h4 class="mb-5 fw-bold">Leave a Reply</h4>
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <div class="border-bottom rounded">
+                                        <input type="text" class="form-control border-0 me-4" placeholder="Yur Name *">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="border-bottom rounded">
+                                        <input type="email" class="form-control border-0" placeholder="Your Email *">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="border-bottom rounded my-4">
+                                        <textarea name="" id="" class="form-control border-0" cols="30" rows="8" placeholder="Your Review *" spellcheck="false"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="d-flex justify-content-between py-3 mb-5">
+                                        <div class="d-flex align-items-center">
+                                            <p class="mb-0 me-3">Please rate:</p>
+                                            <div class="d-flex align-items-center" style="font-size: 12px;">
+                                                <i class="fa fa-star text-muted"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <a href="#" class="btn border border-secondary text-primary rounded-pill px-4 py-3"> Post Comment</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div class="collapse " id="files_download" role="tabpanel" aria-labelledby="nav-about-tab">
+
+                        <form method="post" asp-page-handler="DownloadFile" enctype="multipart/form-data">
+                            @foreach (var f in Model.CourseDetail.Documents)
+                            {
+                                <div class="d-flex  flex-inline">
+
+                                    <input type="checkbox" name="fileUrls" value="@f.Url" />
+                                    <p style="white-space: pre-wrap;">@f.Url</p>
+                                </div>
+                            }
+                            <button class="btn btn-outline-warning" type="submit">Download</button>
+                        </form>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+        <h1 class="fw-bold mb-0">Related  @c.SubCategoryName</h1>
+
+
+
+        <div class="vesitable">
+            <div class="owl-carousel vegetable-carousel justify-content-center row container">
+
+
+                @await Component.InvokeAsync("CourseList", new { courseList = Model.RelatedCourses, isCarousel = true })
+
+
+            </div>
+
+        </div>
+
+
+        @section Scripts {
+            <script>
+                $(document).ready(() => {
+                    $(document).on('click', '#expand_all_section', (event) => {
+                        var isExpanded = $(event.target).attr('aria-expanded') === 'true';
+
+                        $(".list-lecture").each(function () {
+                            var section = $(this);
+
+                            if (isExpanded) {
+                                new bootstrap.Collapse(section[0], { toggle: false }).hide();
+                            } else {
+                                new bootstrap.Collapse(section[0], { toggle: false }).show();
+                            }
+                        });
+
+                        $(event.target).attr('aria-expanded', !isExpanded);
+                        $(event.target).text(isExpanded ? 'Expand all' : 'Collapse all');
+                    });
+                });
+
+
+            </script>
+
+        }
+
+</body>
+
+</html>

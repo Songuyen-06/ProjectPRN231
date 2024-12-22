@@ -1,0 +1,112 @@
+﻿@using EduCore.Domain.DTOs
+@model List<CourseDTO>
+@{
+
+    UserDTO? student = ViewBag.Student;
+    // List<CompletionStatusDTO> completionStatuses = ViewBag.CompletionStatusList;
+}
+
+@foreach (var course in @Model)
+{
+    <div class="@(ViewBag.IsCarousel?"col-md-12": "col-md-3") col-sm-6 my-3 course-item  ">
+        <div class="p-3 card  shadow rounded-4 border  border-secondary item digital  ">
+            <a href="@(ViewBag.isEnrolledCourses==true?
+            $"/Student/Course/Detail?cId={course.CourseId}" :
+            $"/Student/Course/Detail?handler=CourseStatus&cId={course.CourseId}&stdId={student?.UserId}")" >
+                <div class="position-relative m-2">
+                    <div class="position-absolute m-3">
+                        <span class="badge text-muted bg-primary">@course.Duration</span>
+                    </div>
+                    <iframe src="@course.Url" class=" img-fluid rounded" frameborder="0" allowfullscreen style="pointer-events: none;">
+                    </iframe>
+
+                </div>
+            </a>
+            <div class="card-body p-2 m-2   ">
+                <div class=" mt-3 mb-1">
+                    <span class="badge text-muted bg-success d-inline">@course.Level</span>
+                    <span class="badge text-muted bg-success d-inline">@course.SectionNumber section</span>
+                    <span class="badge text-muted bg-success d-inline">@course.LectureNumber lecture </span>
+                </div>
+                <h5 class="py-2 m-0">
+                    @course.Title-
+                    <a href="/Student/Instructor/Detail?insId=@course.InstructorId">
+                        <span class="text-primary">
+                            @course.InstructorName
+                        </span>
+                    </a>
+                </h5>
+
+                <div class="card-text">
+                    <span class="rating d-flex align-items-center mb-2">
+                        <h6 class="text-primary m-0 me-2">@course.Rating</h6>
+                        @{
+                            var floorStars = (int)Math.Floor(course.Rating ?? 0);
+                            var halfStar = course.Rating % 1 >= 0.5m;
+                            var totalStars = 5;
+                        }
+                        @for (var i = 0; i < floorStars; i++)
+                        {
+                            <i class="fas fa-star text-primary"></i>
+                        }
+                        @{
+                            if (halfStar)
+                            {
+                                <i class="fas fa-star-half-alt text-primary"></i>
+                            }
+                        }
+                        @for (var i = 0; i < totalStars - (floorStars + (halfStar ? 1 : 0)); i++)
+                        {
+                            <i class="far fa-star text-primary"></i>
+                        }
+                        <p class="text-primary m-0 me-2">(@course.RatingNumber rating)</p>
+                    </span>
+                    <h5 class="text-nowrap text-muted">
+                        @if (course.Price > 0)
+                        {
+                            @course.PriceAfterSale?.ToString("N0")
+                            ;
+                            <span>vnd</span>
+                            <span class="fs-6  text-black opacity-25 text-decoration-line-through">
+                                @course.Price?.ToString("N0")
+                            </span>
+                            <span><h6 class="d-inline">-@course.Sale%</h6></span>
+                        }
+                        else
+                        {
+                            <span>Free</span>
+                        }
+                    </h5>
+                    <div class="d-flex flex-wrap  mt-2">
+                        <a href="@(student==null?"/Home/LoginAndSignup":$"/Student/Course/Checkout?courseId={course.CourseId}") " class="btn btn-outline-dark text-capitalize me-2 px-2 py-3">Enroll Now</a>
+                        <a href="#" class="btn btn-outline-dark text-capitalize me-2">
+                                <iconify-icon icon="mdi:heart-outline" class="fs-5 pt-1"></iconify-icon>
+                            </a>
+                            <a href="#" class="btn btn-outline-dark text-capitalize">
+                                <iconify-icon icon="mdi:cart-outline" class="fs-5 pt-1"></iconify-icon>
+                            </a>
+                    </div>
+                    <p>
+                        @if (ViewBag.isEnrolledCourses==true)
+                        {
+                            @if (course.IsCompleted)
+                            {
+                                <span>Completed</span>
+                            }
+                            else
+                            {
+                                <span>In progress</span>
+                            }
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+
+
+
+
+

@@ -1,0 +1,74 @@
+﻿@using EduCore.Domain.DTOs
+@{
+    var reviewList = ViewData["ReviewList"] as List<ReviewDTO>; 
+    var isSlider = (bool)ViewData["IsSlider"];
+    var isSameCourse = (bool)ViewData["IsSameCourse"];
+}
+
+@foreach (var r in reviewList)
+{
+    <div class="@(isSlider ? "swiper-slide" : "row")">
+        <div class="d-flex px-5 border @(isSlider ? "justify-content-center" : "")" >
+           
+        <img src="@r.UrlImgStudent" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+            <div class="">
+                <h5>@r.StudentName</h5>
+
+                <div class="d-flex justify-content-between flex-row">
+                    @{
+                        var floorStars2 = (int)Math.Floor(r.Rating);
+                        var halfStar2 = r.Rating % 1 >= 0.5m;
+                        var totalStars2 = 5;
+                    }
+                    @for (var i = 0; i < floorStars2; i++)
+                    {
+                        <i class="fas fa-star text-primary"></i>
+                    }
+                    @{
+                        if (halfStar2)
+                        {
+                            <i class="fas fa-star-half-alt text-primary"></i>
+                        }
+                    }
+                    @for (var i = 0; i < totalStars2 - (floorStars2 + (halfStar2 ? 1 : 0)); i++)
+                    {
+                        <i class="far fa-star text-primary"></i>
+                    }
+                    <span class="rating mb-2">
+                        @{
+                            var reviewDate = r.ReviewDate;
+                            var now = DateTime.Now;
+
+                            var totalDays = (now - reviewDate).TotalDays;
+                            var totalMonths = (now.Year - reviewDate.Year) * 12 + now.Month - reviewDate.Month;
+                            var totalYears = now.Year - reviewDate.Year;
+
+                            if (reviewDate.Date == now.Date)
+                            {
+                                <span class="text-muted">@reviewDate.ToString("dddd-MM")</span>
+                            }
+                            else if (totalDays < 30)
+                            {
+                                <span class="text-muted">@($"{(int)totalDays} days ago")</span>
+                            }
+                            else if (totalMonths < 12)
+                            {
+                                <span class="text-muted">@totalMonths months ago</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">@totalYears years ago</span>
+                            }
+                        }
+                    </span>
+                </div>
+
+                @if (!isSameCourse)
+                {
+                    <h6 class="fw-bold">@r.CourseName</h6>
+                }
+                <p class="text-dark">@r.Comment</p>
+            </div>
+        </div>
+    </div>
+}

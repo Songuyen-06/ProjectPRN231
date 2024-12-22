@@ -1,0 +1,18 @@
+﻿@page
+@model EduCore.Web.Pages.Student.Cart.AddModel
+@{
+    Layout = "../../Shared/Layouts/Student/_Layout";
+    ViewData["Title"] = "Add to Cart";
+
+}
+<body>
+    @if (ViewData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@ViewData["ErrorMessage"]</div>
+    }else{
+        <div class="alert alert-success">@ViewData["SuccessMessage"]</div>
+
+    }
+</body>
+
+

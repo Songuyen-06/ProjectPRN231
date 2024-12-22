@@ -1,0 +1,128 @@
+﻿@{
+    string? repliedUserName = ViewData["RepliedUserName"] as string;
+}
+@model Pages.Student.Lecture.DetailModel
+@foreach (var c in Model.Lecture.Comments)
+{
+    <div class="d-flex flex-start m-2   ">
+
+        <div class="d-flex flex-column  ">
+            <img class="d-flex justify-content-center rounded-circle shadow me-3" src="@c.UserImg" alt="avatar" width="65" height="65" />
+
+            <button class="btn m-0 p-0 d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#replies_of_comment_@(c.CommentId)" aria-expanded="false" aria-controls="replies_of_comment_@(c.CommentId)">
+                @if (c.Replies.Count > 0)
+                {
+                    <i class="bi bi-chevron-bar-expand me-1" style="color: gold;"></i>
+                    <span>@c.Replies.Count</span> <span class="ms-1">comment</span>
+                }
+            </button>
+        </div>
+
+
+
+
+        <div class="flex-grow-1 flex-shrink-1 ">
+            <div class="">
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-1">
+                        <b> @c.UserName </b>
+                        <span class="rating mb-2">
+                            @{
+                                var commentDate = c.CommentOn;
+                                var now = DateTime.Now;
+                                var timeSpan = now - commentDate;
+
+                                var totalSeconds = timeSpan.TotalSeconds;
+                                var totalMinutes = timeSpan.TotalMinutes;
+                                var totalHours = timeSpan.TotalHours;
+                                var totalDays = timeSpan.TotalDays;
+                                var totalMonths = (now.Year - commentDate.Year) * 12 + now.Month - commentDate.Month;
+                                var totalYears = now.Year - commentDate.Year;
+
+                                if (totalSeconds < 60)
+                                {
+                                    <span class="text-muted">@($"{(int)totalSeconds} seconds ago")</span>
+                                }
+                                else if (totalMinutes < 60)
+                                {
+                                    <span class="text-muted">@($"{(int)totalMinutes} minutes ago")</span>
+                                }
+                                else if (totalHours < 24)
+                                {
+                                    <span class="text-muted">@($"{(int)totalHours} hours ago")</span>
+                                }
+                                else if (totalDays < 30)
+                                {
+                                    <span class="text-muted">@($"{(int)totalDays} days ago")</span>
+                                }
+                                else if (totalMonths < 12)
+                                {
+                                    <span class="text-muted">@($"{totalMonths} months ago")</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">@($"{totalYears} years ago")</span>
+                                }
+                            }
+
+                        </span>
+                    </p>
+
+                </div>
+                <p class="small mb-0 rounded" style="border: 1px solid #ccc; padding: 5px;">
+                    <b>@repliedUserName </b> @c.Content
+
+
+                </p>
+
+                <div class="d-inline">
+                    <div class="d-inline-flex align-items-center">
+                        <a class="btn like-comment me-3"
+                           data-comment-id="@(c.CommentId)">
+
+                            <p class="mb-0 ">Like</p>
+                        </a>
+                        <div id="like_comment_@c.CommentId" class="d-inline-flex align-items-center">
+                            <span class="me-2" id="likeCount_@c.CommentId">@c.NumberOfLikes</span>
+                            <i class="far fa-thumbs-up"></i>
+                        </div>
+                    </div>
+                    @* <a class="reply-comment d-inline-flex align-items-center"
+                aria-expanded="false"
+                data-replied-comment='@Html.Raw(JsonConvert.SerializeObject(c))'
+                href="#send_comment"
+                data-bs-toggle="collapse">
+                <span class="small">Reply</span>
+                </a> *@
+                    <a href="~/Student/Lecture/Detail?repliedCommentId=@c.CommentId">
+                        <span class="small">Reply</span>
+                    </a>
+                </div>
+
+
+
+
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+    if (c.Replies.Count() > 0)
+    {
+        <div class="mx-5 collapse" id="replies_of_comment_@(c.CommentId)">
+            @{
+                Model.Lecture.Comments = c.Replies;
+                ViewData["RepliedUserName"] = c.UserName;
+                @await Html.PartialAsync("~/Pages/Shared/Partials/Student/_CommentList.cshtml")
+            }
+        </div>
+
+    }
+
+
+
+
+}

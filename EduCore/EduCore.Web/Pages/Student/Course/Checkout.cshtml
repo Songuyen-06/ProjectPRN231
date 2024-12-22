@@ -1,0 +1,159 @@
+﻿@page
+@model EduCore.Web.Pages.Student.Course.CheckoutModel
+
+@{
+
+    string userJson = HttpContext.Request.Cookies["User"] ?? HttpContext.Session?.GetString("User");
+    UserDTO? student = !string.IsNullOrEmpty(userJson) ? JsonConvert.DeserializeObject<UserDTO>(userJson) : null;
+    if (student != null)
+    {
+        TempData["StudentId"] = student.UserId;
+    }
+}
+<body>
+    <div class="card">
+        <div class="card-body">
+            <div class="container mb-5 mt-3">
+                <div class="row d-flex align-items-baseline">
+                    <div class="col-xl-9">
+                        <p style="color: #7e8d9f;font-size: 20px;">
+                            <strong>
+                                <span><a href="~/Student/Course/List">Course List</a> </span>
+                                <span><a href="~/Student/Course/Detail?cId=@Model.Course?.CourseId"> > @Model.Course?.Title</a> </span>
+                                <span><a> > Enroll</a> </span>
+                            </strong>
+                        </p>
+                    </div>
+                    <div class="col-xl-3 float-end">
+                        <a data-mdb-ripple-init class="btn btn-light text-capitalize border-0" data-mdb-ripple-color="dark">
+                            <i class="fas fa-print text-primary"></i> Print
+                        </a>
+                        <a data-mdb-ripple-init class="btn btn-light text-capitalize" data-mdb-ripple-color="dark">
+                            <i class="far fa-file-pdf text-danger"></i> Export
+                        </a>
+                    </div>
+                    <hr>
+                </div>
+
+                <div class="container">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <h5 class="pt-0">@(TempData["Message"]?.ToString() ?? "")</h5>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <ul class="list-unstyled">
+                                <li class="text-muted">
+                                    <img src="@student?.UrlImage" /><span style="color:#5d9fc5 ;">@student?.FullName</span>
+                                </li>
+                                <li class="text-muted">
+                                    <i class="fas fa-phone"></i> @student?.Phone
+                                </li>
+                                <li class="text-muted">
+                                    <i class="fas fa-envelope"></i> @student?.Email
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-xl-4">
+                            <p class="text-muted">Infor checkout</p>
+                            <ul class="list-unstyled">
+                                @*                                 <li class="text-muted">
+                                <i class="fas fa-circle" style="color:#84B0CA ;"></i> <span class="fw-bold">ID:</span>#123-456
+                                </li> *@
+                                <li class="text-muted">
+                                    <i class="fas fa-circle" style="color:#84B0CA ;"></i> <span class="fw-bold">Creation Date: </span>@DateTime.Now
+                                </li>
+                                <li class="text-muted">
+                                    <i class="fas fa-circle" style="color:#84B0CA ;"></i> <span class="me-1 fw-bold">Status:</span><span class="badge bg-warning text-black fw-bold">
+                                       @(Model.Checkout?.PaymentStatus??"Unpaid")
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row my-2 mx-1 justify-content-center">
+                        <table class="table table-striped table-bordered" style="border-radius: 8px; overflow: hidden;">
+                            <thead class="text-muted">
+                                <tr>
+                                    <th scope="row">ID</th>
+                                    <td>Course Name</td>
+                                    <td>Sale</td>
+                                    <td>Price</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="col">@Model.Course?.CourseId</th>
+                                    <th scope="col">@Model.Course?.Title</th>
+                                    <th scope="col">@Model.Course?.Sale%</th>
+                                    <th scope="col">@Model.Course?.Price?.ToString("N0")</th>
+
+                                </tr>
+
+
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-8">
+
+                           
+
+                            <p class="ms-3 text-lg-start text-muted">
+                               
+                                @(Model.Checkout?.VnPayResponseCode == "00"
+                                    ? $" You has paid {Model.Checkout.Amount.ToString("N0")} Vnd successfully for \"{Model.Checkout?.CourseName}\" ({Model.Checkout.PaymentDate?.ToString("dd/MM/yyyy---hh:mm:ss")})"
+                                : "")
+                            </p>
+
+                        </div>
+                        <div class="col-xl-3">
+                            <ul class="list-unstyled">
+                                @*                                 <li class="text-muted ms-3"><span class="text-black me-4">SubTotal</span>$1110</li>
+                                *@
+                                <li class="text-muted ms-3 mt-2"><span class="text-black me-4">Using(discount @(Model.Course.Sale)%)</span></li>
+                            </ul>
+                            <p class="text-black float-start">
+                                <span class="text-black me-3"> Total Amount</span><span style="font-size: 25px;">@Model.Course.PriceAfterSale?.ToString("N0")</span>Vnd
+
+
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xl-10 ">
+                            <p>Thank you for enroll course</p>
+                        </div>
+                        <div class="col-xl-2">
+                            <form method="post" asp-page-handler="Payment">
+
+                                <input type="hidden" asp-for="@Model.Checkout.Amount" value="@Model.Course.PriceAfterSale" />
+                                <input type="hidden" asp-for="@Model.Checkout.StudentId" value="@student.UserId" />
+                                <input type="hidden" asp-for="@Model.Checkout.CourseId" value="@Model.Course.CourseId" />
+                                <input type="hidden" asp-for="@Model.Checkout.CourseName" value="@Model.Course.Title" />
+                                <input type="hidden" asp-for="@Model.Checkout.PaymentMethod" value="VNPay" />
+
+                                <button type="submit"
+                                        data-mdb-button-init data-mdb-ripple-init
+                                        class="btn btn-primary text-capitalize @(Model.Checkout?.VnPayResponseCode=="00" ? "disabled" : "")"
+                                        style="background-color:#60bdf3;">
+                                    Payment
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

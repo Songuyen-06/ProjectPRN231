@@ -1,0 +1,32 @@
+﻿
+
+@{
+    string userJson = HttpContextAccessor.HttpContext.Request.Cookies["User"] ??
+                      HttpContextAccessor.HttpContext?.Session?.GetString("User");
+    UserDTO? student = !string.IsNullOrEmpty(userJson) ? JsonConvert.DeserializeObject<UserDTO>(userJson) : null;
+   
+
+}
+@model Pages.Student.Lecture.DetailModel
+ <form method="post" asp-page-handler="AddComment">
+    <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
+        <div class="d-flex flex-start w-100">
+            <img class="rounded-circle shadow-1-strong me-3"
+                 src="@(student !=null ? student?.UrlImage  : "https://th.bing.com/th/id/OIP.1waDZ8Q2eWBkenMscI08qAHaHa?w=183&h=184&c=7&r=0&o=5&dpr=1.3&pid=1.7')")"
+                 alt="avatar" width="40" height="40" />
+            <p><b>Me</b></p>
+            <div class="form-outline w-100">
+                <textarea class="form-control" asp-for="@Model.AddedComment.Content" rows="4"
+                           style="background: #fff;" placeholder="Message"></textarea>
+            </div>
+        </div>
+       <input type="hidden" asp-for="@Model.AddedComment.UserId" value="@(student != null ? student?.UserId : 1)">
+        <input type="hidden" asp-for="@Model.AddedComment.LectureId" value="@Model.Lecture.LectureId">
+        <input type="hidden" asp-for="@Model.AddedComment.ReplyId" value="@(Model.RepliedComment!=null?Model.RepliedComment?.CommentId:"")">
+        <div class="float-end mt-2 pt-1">
+            <input type="file" id="fileInput" name="fileInput">
+            <button id="btn_submit_comment" type="submit" class="btn btn-primary btn-sm">Post comment</button>
+            <a href="~/Student/Lecture/Detail" class="btn btn-outline-primary btn-sm" id="btn_cancel_comment">Cancel</a>
+        </div>
+    </div>
+</form>

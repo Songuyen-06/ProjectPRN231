@@ -1,0 +1,29 @@
+﻿@page
+@model EduCore.Web.Pages.Student.Lecture.DetailModel
+@{
+    Layout = "../../Shared/Layouts/Student/_LectureLayout.cshtml";
+    var video = @Model.Lecture.VideoUrl;
+}
+<body>
+    <style>
+        .video-wrapper {
+            width: 930px; 
+            height: 560px; 
+            overflow: hidden;
+            position: relative;
+        }
+
+        .fixed-size-iframe {
+            width: 100%; 
+            height: 100%;
+            border: none;
+        }
+
+    </style>
+    <div class="video-wrapper ">
+        <iframe src="@video" class="fixed-size-iframe" allow="autoplay"></iframe>
+    </div>
+
+
+
+</body>

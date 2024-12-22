@@ -1,0 +1,111 @@
+﻿@page
+@model EduCore.Web.Pages.Teacher.CourseListModel
+@{
+    Layout = "../Shared/Layouts/Teacher/_Layout.cshtml";
+
+}
+<body>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Instructor</th>
+                <th>Level</th>
+                <th>Sections</th>
+                <th>Lectures</th>
+                <th>Rating</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+   @*      <tbody>
+            @foreach (var course in @Model)
+            {
+                <tr>
+                    <td>
+                        <a href="@(ViewBag.isEnrolledCourses==true?
+                    $"/Student/Course/Detail?cId={course.CourseId}" :
+                    $"/Student/Course/Detail?handler=CourseStatus&cId={course.CourseId}&stdId={student.UserId}")">
+                            <img src="@course.Url" class="img-fluid" style="max-width: 100px;" />
+                        </a>
+                    </td>
+                    <td>@course.Title</td>
+                    <td>
+                        <a href="/Student/Instructor/Detail?insId=@course.InstructorId">
+                            <span class="text-primary">@course.InstructorName</span>
+                        </a>
+                    </td>
+                    <td>@course.Level</td>
+                    <td>@course.SectionNumber</td>
+                    <td>@course.LectureNumber</td>
+                    <td>
+                        <span class="rating d-flex align-items-center">
+                            <h6 class="text-primary m-0 me-2">@course.Rating</h6>
+                            @{
+                                var floorStars = (int)Math.Floor(course.Rating ?? 0);
+                                var halfStar = course.Rating % 1 >= 0.5m;
+                                var totalStars = 5;
+                            }
+                            @for (var i = 0; i < floorStars; i++)
+                            {
+                                <i class="fas fa-star text-primary"></i>
+                            }
+                            @if (halfStar)
+                            {
+                                <i class="fas fa-star-half-alt text-primary"></i>
+                            }
+                            @for (var i = 0; i < totalStars - (floorStars + (halfStar ? 1 : 0)); i++)
+                            {
+                                <i class="far fa-star text-primary"></i>
+                            }
+                        </span>
+                    </td>
+                    <td>
+                        @if (course.Price > 0)
+                        {
+                            @course.PriceAfterSale?.ToString("N0")
+                            <span>vnd</span>
+                            <span class="fs-6 text-black opacity-25 text-decoration-line-through">
+                                @course.Price?.ToString("N0")
+                            </span>
+                            <span>-@course.Sale%</span>
+                        }
+                        else
+                        {
+                            <span>Free</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="d-flex">
+                            <a href="@(student == null ? "/Home/LoginAndSignup" : $"/Student/Course/Checkout?courseId={course.CourseId}")"
+                               class="btn btn-outline-dark text-capitalize me-2 px-2 py-3">Enroll Now</a>
+                            <a href="#" class="btn btn-outline-dark text-capitalize me-2">
+                                <iconify-icon icon="mdi:heart-outline" class="fs-5 pt-1"></iconify-icon>
+                            </a>
+                            <a href="#" class="btn btn-outline-dark text-capitalize">
+                                <iconify-icon icon="mdi:cart-outline" class="fs-5 pt-1"></iconify-icon>
+                            </a>
+                        </div>
+                        @if (ViewBag.isEnrolledCourses == true)
+                        {
+                            @if (course.IsCompleted)
+                            {
+                                <span>Completed</span>
+                            }
+                            else
+                            {
+                                <span>In progress</span>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody> *@
+    </table>
+
+
+
+</body>
+
+

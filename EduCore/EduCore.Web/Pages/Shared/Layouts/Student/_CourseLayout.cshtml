@@ -1,0 +1,313 @@
+﻿@using EduCore.Domain.DTOs
+@using Newtonsoft.Json
+@using System.Collections;
+
+@model EduCore.Web.Pages.Student.Course.ListModel
+
+@{
+    // var categoryList = ViewData["Categories"] as List<CategoryDTO>;
+    // var cateId = (int)ViewData["CateId"];
+    // var subCateId = (int?)ViewData["SubCateId"];
+    Layout = "./_Layout.cshtml";
+
+    // var cateList = ViewData["Categories"] as List<CategoryDTO>;
+    // var cate = cateList.Where(c => c.CategoryId.Equals(Model.CateId)).FirstOrDefault();
+    // var subCate = cate.SubCategories.Where(sc => sc.SubCategoryId.Equals(Model.SubCateId)).FirstOrDefault();
+
+
+    string href = ViewBag.hrefFilterCourse;
+    // var levelList = JsonConvert.DeserializeObject<Hashtable>((string)TempData["LevelList"]);
+    // var ratingList = JsonConvert.DeserializeObject<Hashtable>((string)TempData["RatingList"]);
+    // var priceList = JsonConvert.DeserializeObject<Hashtable>((string)TempData["PriceList"]);
+
+    int filterCount = href.Split('&').Length - 2;
+    filterCount -= href.Contains("Levels=All") ? 1 : 0;
+    var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>((string)TempData.Peek("Categories"));
+
+
+}
+
+<body>
+    <div class="container-fluid mt-5">
+
+        <div class=" row container-fluid h-30 col-md-12 ">
+            <div class="col-md-3 d-flex justify-content-start align-items-center" style="height: 30px;">
+                <button type="button" data-bs-toggle="collapse" data-bs-target="#filter-list"
+                        aria-expanded="true" aria-controls="filter-list"
+                        class="btn btn-light" style="padding: 5px 10px;margin:5px; height: 30px;width:50px">
+                    Filter
+                    <p class="mb-0">@filterCount</p>
+                    <i class="bi bi-filter"></i>
+                </button>
+
+                <div>
+                    <select asp-for="@Model.SortBy" id="sort-course" class="form-select" style="height: 30px;">
+                        <option value="Popular">Popular</option>
+                        <option value="Rating">High rating</option>
+                        <option value="Newest">Newest</option>
+                    </select>
+                </div>
+
+                <a id="clear-filter" class="btn btn-light" type="button" style="height: 30px; padding: 5px 10px;">
+                    Clear filter
+                    <i class="bi bi-x-octagon-fill"></i>
+                </a>
+            </div>
+
+
+            <div class="col-md-9">
+            </div>
+        </div>
+
+
+
+
+        <div class="container-fluid content mt-5  row col-md-12">
+
+
+            <div id="filter-list" class="col-md-2 collapse collapse-horizontal show ">
+
+
+
+                <div class="rounded-pill shadow border border-secondary mb-2  ">
+                    <button class="btn btn-lg font-weight-bold border p-2 shadow-sm rounded-sm text-center w-100 "
+                            type="button" data-bs-toggle="collapse" data-bs-target="#cate_list" aria-expanded="true"
+                            aria-controls="cate_list" style="background-color: #f5f5f5;">
+                        Categories
+                        <i class="bi bi-chevron-bar-expand"></i>
+                    </button>
+
+
+                    <ul class="list-group collapse show" id="cate_list">
+                        @foreach (var c in categories)
+                        {
+                            <li class="list-group-item shadow-sm list-group-item-action  category">
+                                <a data-cate_id="@c.CategoryId"
+                                   class="filter-cate text-nowrap w-100 border   rounded-pill  font-weight-bold 
+                       btn @(c.CategoryId == Model.CateId ? "btn-outline-warning" : Model.CateId == null && c.CategoryId == 1 ? "btn-outline-warning" : "")">
+                                    @c.CategoryName
+                                    <span class="badge text-muted bg-success">@c.SubCategories.Count subcategories</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+
+
+                <div class="rounded-pill shadow border border-secondary mb-2 ">
+
+                    <button class="btn btn-lg font-weight-bold border p-2 shadow-sm rounded-sm text-center w-100 "
+                            type="button" data-bs-toggle="collapse" data-bs-target="#filter_price" aria-expanded="true"
+                            aria-controls="filter_price" style="background-color: #f5f5f5;">
+                        Price
+                        <i class="bi bi-chevron-bar-expand"></i>
+                    </button>
+
+                    <ul class="list-group collapse show" id="filter_price">
+
+                        @foreach (var p in new List<string> { "Paid", "Free" })
+                        {
+
+
+                            <li class="list-group-item shadow-sm list-group-item-action d-flex  justify-content-center ">
+
+                                <a data-price="@p" class="filter-price  border w-100 text-nowrap shadow-sm  rounded-pill  font-weight-bold 
+                            btn @(  p==Model.Price? "btn-outline-warning":"") ">
+                                    @p
+
+
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                </div>
+
+                <div class="rounded-2 shadow border border-secondary mb-2 ">
+
+                    <button class="btn btn-lg font-weight-bold border p-2 shadow-sm rounded-sm text-center w-100 "
+                            type="button" data-bs-toggle="collapse" data-bs-target="#level_list" aria-expanded="true"
+                            aria-controls="level_list" style="background-color: #f5f5f5;">
+                        Level
+                        <i class="bi bi-chevron-bar-expand"></i>
+                    </button>
+                    <ul class="list-group collapse show " id="level_list">
+
+                        @foreach (var l in new List<string> { "Beginner", "Intermediate", "Advanced" })
+                        {
+
+                            <li class="list-group-item shadow-sm list-group-item-action row m-0 ">
+                                <label class="tick text-muted mx-4 ">
+                                    <input checked="@(Model.Levels!=null?Model.Levels.Contains(l):false)"
+                                           class="filter-level" value="@l" type="checkbox"> <span class="check"></span>
+                                    <b>@l</b>
+
+                                 
+
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="rounded-3 shadow border border-secondary mb-2">
+                    <button class="btn btn-lg font-weight-bold border p-2 shadow-sm rounded-sm text-center w-100 "
+                            type="button" data-bs-toggle="collapse" data-bs-target="#rating_list" aria-expanded="true"
+                            aria-controls="rating_list" style="background-color: #f5f5f5;">
+                        Rating
+                        <i class="bi bi-chevron-bar-expand"></i>
+                    </button>
+
+                    <div class="list-group collapse show" id="rating_list">
+                        @* <div class="form-inline d-flex justify-content-center py-2">
+                        <input checked="@(Model.Rating!=null?Model.Rating.Equals(0):false)" value="0" type="radio"
+                        class="filter-rating mr-4 " name="ratingGroup" id="ratingCheckbox_0">
+                        <span class="check"></span>
+                        <label class="mx-5 text-muted ">
+                        All
+                        </label>
+                        </div> *@
+
+                        @for (int rating = 5; rating >= 1; rating--)
+                        {
+                            <div class="border form-inline d-flex justify-content-center py-2">
+                                <input checked="@(Model.Rating!=null?Model.Rating.Equals(rating):false)" value="@rating"
+                                       type="radio" class="filter-rating mr-4 " name="ratingGroup" id="ratingCheckbox_@rating">
+                                <span class="check"></span>
+                                <label class="">
+                                    @{
+                                        for (int i = 1; i <= rating; i++)
+                                        {
+                                            <span class="fas text-primary fa-star"></span>
+                                        }
+
+                                        for (int i = rating + 1; i <= 5; i++)
+                                        {
+                                            <span class="far fa-star  text-muted"></span>
+                                        }
+                                    }
+                                  
+                                </label>
+
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <!--------------->
+
+            <div class="col-md-10 ">
+
+                @RenderBody();
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                const cateId = @Html.Raw(Json.Serialize(Model.CateId));
+                const subCateId = @Html.Raw(Json.Serialize(Model.SubCateId));
+                const levels = @Html.Raw(Json.Serialize(Model.Levels)) ;
+                const rating = @Html.Raw(Json.Serialize(Model.Rating));
+                const price = @Html.Raw(Json.Serialize(Model.Price));
+                const orderBy = @Html.Raw(Json.Serialize(Model.SortBy));
+                let href = @Html.Raw(Json.Serialize(href));
+
+                $("#clear-filter").click(() => {
+                    debugger;
+                    href = "/Student/Course/List";
+                    window.location.href = href;
+                })
+
+                $(".filter-cate").click(function () {
+                    debugger;
+                    let selectedCateId = $(this).data("cate_id");
+                    if (cateId) {
+                        if (subCateId) {
+                            href = href.replace(`CateId=${cateId}`, `CateId=${selectedCateId}`).replace(`&SubCateId=${subCateId}`, "");
+
+                        } else {
+
+                            href = href.replace(`CateId=${cateId}`, `CateId=${selectedCateId}`);
+                        }
+                    }
+                    window.location.href = href;
+                });
+
+                $(document).on("click", ".filter-level", function () {
+                    debugger;
+                    let selectedLevels = [];
+                    $(".filter-level:checked").each(function () {
+                        selectedLevels.push($(this).val());
+
+                    });
+
+                    if (levels) {
+                        if (selectedLevels.length) {
+
+                            href = href.replace(`Levels=${levels}`, `Levels=${JSON.stringify(selectedLevels)}`);
+                        } else {
+                            href = href.replace(`Levels=${levels}`, `Levels=All`);
+
+                        }
+                    } else {
+                        href += `&Levels=${JSON.stringify(selectedLevels)}`
+                    }
+                    window.location.href = href;
+                });
+
+                $(".filter-price").click(function () {
+                    debugger;
+                    let selectedPrice = $(this).data("price");
+                    if (price != null) {
+                        href = href.replace(`Price=${price}`, `Price=${selectedPrice}`);
+                    }
+                    else {
+                        href += `&Price=${selectedPrice}`;
+                    }
+                    window.location.href = href;
+
+                })
+
+
+                $("#sort-course").change((event) => {
+                    let sortBy = $(event.target).val()
+
+                    if (orderBy) {
+
+                        href = href.replace(`SortBy=${orderBy}`, `SortBy=${sortBy}`);
+                    } else {
+                        href += `&SortBy=${JSON.stringify(sortBy)}`
+                    }
+
+
+                    window.location.href = href;
+
+                })
+
+
+                $(document).on("click", ".filter-rating", function () {
+                    debugger;
+                    const selectedRating = $(".filter-rating:checked").val()
+                    if (selectedRating && rating) {
+
+                        href = href.replace(`Rating=${rating}`, `Rating=${selectedRating}`);
+                    } else {
+                        href += `&Rating=${selectedRating}`;
+                    }
+
+                    window.location.href = href;
+                });
+            });
+        </script>
+        @await RenderSectionAsync("Scripts", required: false)
+
+    }
+
+
+
+
+</body>

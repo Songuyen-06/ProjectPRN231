@@ -1,0 +1,384 @@
+﻿@page "/Student"
+@using EduCore.Domain.DTOs
+@using Newtonsoft.Json
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@model EduCore.Web.Pages.Student.IndexModel
+@{
+
+    var cateId = (int?)ViewData["CateId"];
+    var numberCourses = (int?)ViewData["NumberCourses"];
+    var numberCertificates = (int?)ViewData["NumberCertificates"];
+    var numberStudents = (int?)ViewData["NumberStudents"];
+
+    var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>((string)TempData.Peek("Categories"));
+
+    string userJson = HttpContext.Request.Cookies["User"] ?? HttpContext.Session?.GetString("User");
+    var student = !string.IsNullOrEmpty(userJson) ? JsonConvert.DeserializeObject<UserDTO>(userJson) : null;
+    if (student != null)
+    {
+        TempData["StudentId"] = student.UserId;
+    }
+
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<body>
+
+    <section id="hero">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8 col-lg-3 offset-md-2 padding-large ps-lg-0 pe-lg-5 p-5">
+
+
+                    <h2 class="display-2 fw-semibold">Great Online Platform </h2>
+                    <p class="secondary-font my-4 pb-2">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
+                        fugit at quia
+                        tenetur expedita, consequuntur aspernatur explicabo earum odio.
+                    </p>
+                    <div>
+                        <form id="form" class="d-flex justify-content-between position-relative">
+                            <input type="text" name="email" placeholder="Search Your Courses ..." class="form-control w-100">
+                            <button class="btn btn-primary px-4 py-2 position-absolute end-0"
+                                    style="height: -webkit-fill-available;">
+                                <iconify-icon icon="ion:search" class="fs-4 py-1"
+                                              style="vertical-align: middle;"></iconify-icon>
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-7 d-block d-md-none d-lg-block p-5">
+                    <img src="../images/billboard-img.jpg" alt="img" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @* <section id="service" class="padding-medium">
+    <div class="container">
+    <div class="text-center">
+    <h2 class="display-5 fw-semibold">Why to <span class="text-primary"> choose us</span></h2>
+    <p class="secondary-font">Get many features from us exactly what you are looking for.</p>
+    </div>
+
+    <div class="row g-md-4 mt-2">
+    <div class="col-md-4 mt-4">
+    <div class="services-element p-4 rounded-3 d-flex">
+    <div>
+    <iconify-icon class="service-icon fs-1" icon="fluent:notepad-person-24-regular"></iconify-icon>
+    </div>
+
+    <div class="ps-3">
+    <h4 class="py-2 m-0">Professional Instruction</h4>
+    <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio sint dolores cupiditate, commodi
+    voluptatem corrupti voluptatibus quisquam officiis quod id.
+    </p>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-4 mt-4">
+    <div class="services-element p-4 rounded-3 d-flex">
+    <div>
+    <iconify-icon class="service-icon fs-1" icon="la:certificate"></iconify-icon>
+    </div>
+
+    <div class="ps-3">
+    <h4 class="py-2 m-0">Certified Courses</h4>
+    <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio sint dolores cupiditate, commodi
+    voluptatem corrupti voluptatibus quisquam officiis quod id.
+    </p>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-4 mt-4">
+    <div class="services-element p-4 rounded-3 d-flex">
+    <div>
+    <iconify-icon class="service-icon fs-1" icon="mdi:virtual-meeting"></iconify-icon>
+    </div>
+
+    <div class="ps-3">
+    <h4 class="py-2 m-0">Learn Courses Online</h4>
+    <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio sint dolores cupiditate, commodi
+    voluptatem corrupti voluptatibus quisquam officiis quod id.
+    </p>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-4 mt-4">
+    <div class="services-element p-4 rounded-3 d-flex">
+    <div>
+    <iconify-icon class="service-icon fs-1" icon="mdi:school-online"></iconify-icon>
+    </div>
+
+    <div class="ps-3">
+    <h4 class="py-2 m-0">5000+ Online Courses</h4>
+    <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio sint dolores cupiditate, commodi
+    voluptatem corrupti voluptatibus quisquam officiis quod id.
+    </p>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-4 mt-4">
+    <div class="services-element p-4 rounded-3 d-flex">
+    <div>
+    <iconify-icon class="service-icon fs-1" icon="uil:notebooks"></iconify-icon>
+    </div>
+
+    <div class="ps-3">
+    <h4 class="py-2 m-0">Free Online Ebooks</h4>
+    <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio sint dolores cupiditate, commodi
+    voluptatem corrupti voluptatibus quisquam officiis quod id.
+    </p>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-4 mt-4">
+    <div class="services-element p-4 rounded-3 d-flex">
+    <div>
+    <iconify-icon class="service-icon fs-1" icon="uiw:global"></iconify-icon>
+    </div>
+
+    <div class="ps-3">
+    <h4 class="py-2 m-0">Global Location</h4>
+    <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio sint dolores cupiditate, commodi
+    voluptatem corrupti voluptatibus quisquam officiis quod id.
+    </p>
+    </div>
+    </div>
+    </div>
+
+
+
+    </div>
+    </div>
+    </section> *@
+
+    @*  <section id="register">
+    <div class="container-fluid">
+    <div class="row align-items-center">
+    <div class="col-md-6 ">
+    <img src="../images/register-img.png" alt="img" class="img-fluid">
+    </div>
+    <div class="col-md-4 ">
+    <div class="mb-5 mt-5 mt-lg-0">
+    <h2 class="display-5 fw-semibold"> Get Your <span class="text-primary">Skills Certificate</span></h2>
+    <p class="secondary-font">
+    Simple steps to get your quality skills certificate
+    through WorldCourse.
+    </p>
+    </div>
+
+    <form id="form">
+    <input type="text" name="email" placeholder="Write Your Name*" class="form-control w-100 mb-4">
+    <input type="email" name="email" placeholder="Write Your Email Address*" class="form-control w-100 mb-4">
+    <button class="btn btn-primary px-5 py-3 mt-2"> Get Started now</button>
+    </form>
+
+    </div>
+
+    </div>
+    </div>
+    </section> *@
+    <!----------------------------------ListCourse---->
+    <section id="top-sell" class="padding-medium">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-semibold"> Top 8<span class="text-primary"> selling courses by category</span></h2>
+        </div>
+
+        <div class="container ">
+
+
+            <div id="cate-list" class="text-center p-0">
+                <p class="p-2 m-2 mb-0 d-flex justify-content-center align-items-center">
+                    <a href="~/Student">
+                        <button id="btn_cate_all" onclick="setActiveButton('btn_cate')" class="filter-button px-3 py-2 mt-2 rounded-pill me-4 @(cateId == null ? "active" : "disactive")">
+                            All
+                        </button>
+                    </a>
+                    @foreach (var cate in categories)
+                    {
+                        <a href="~/Student?cateId=@(cate.CategoryId)">
+                            <button id="btn_cate" onclick="setActiveButton('btn_cate')" class="filter-button px-3 py-2 mt-2 rounded-pill me-4 @(cate.CategoryId==cateId ? "active" : "disactive")">
+                                @cate.CategoryName
+                            </button>
+                        </a>
+                    }
+                </p>
+            </div>
+
+
+            <div class="container">
+                <div class="row " id="courses_content">
+                   
+                    @await Component.InvokeAsync("CourseList", new { courseList = Model.TopSellingCourses })
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+    </section>
+
+
+
+
+    <section id="achievement" style="background-color: #f5f5f5;">
+        <div class="container padding-medium">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <img src="../images/topic.png" alt="img" class="img-fluid">
+                        <h4 class="py-2 mt-3 m-0">@numberCourses+ Courses</h4>
+                        <p class="text-uppercase">choose your choice</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <img src="../images/student.png" alt="img" class="img-fluid">
+                        <h4 class="py-2 mt-3 m-0">@numberStudents+ Students</h4>
+                        <p class="text-uppercase">bright future</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <img src="../images/instruction.png" alt="img" class="img-fluid">
+                        <h4 class="py-2 mt-3 m-0">@Model.Instructors.Count Instructors</h4>
+                        <p class="text-uppercase">trained professionals</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <img src="../images/award.png" alt="img" class="img-fluid">
+                        <h4 class="py-2 mt-3 m-0">@numberCertificates+ Certificates</h4>
+                        <p class="text-uppercase">hard process</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="container-fluid vesitable py-5">
+        <div class="container py-5">
+            <h1 class="mb-0">Professtional Instructors<span><p class="badge text-muted">@Model.Instructors.Count result</p></span></h1>
+            <div class="owl-carousel vegetable-carousel justify-content-center">
+
+                @await Html.PartialAsync("../Shared/Partials/Student/_TeacherList.cshtml", Model.Instructors)
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-------------Blog----------->
+    @*  <section id="blog" class="padding-medium">
+    <div class="container">
+    <div class="text-center">
+    <h2 class="display-5 fw-semibold">view our <span class="text-primary"> latest blogs</span></h2>
+    <p class="secondary-font">Get many features from us exactly what you are looking for.</p>
+    </div>
+
+    <div class="row ">
+    <div class="col-md-4 my-5">
+    <div class="blog-post">
+    <a href="single-post.html">
+    <div class="image-holder zoom-effect rounded-3">
+    <img src="images/blog2.jpg" alt="img" class="post-image img-fluid rounded-3">
+    </div>
+    </a>
+    <div class="mt-3">
+    <a href="#">
+    <p class="text-black-50 m-1">Dec 1, 2024</p>
+    </a>
+    <a href="single-post.html">
+    <h4 class="m-0">Education Is For Human Greatness And Achievments</h4>
+    </a>
+    </div>
+    </div>
+    </div>
+
+
+    <div class="text-center">
+    <a href="blog.html" class="btn btn-primary px-5 py-3 "> view all</a>
+    </div>
+
+    </div>
+    </section>
+    *@
+
+
+    <section id="testimonial" style="background-image:url(../images/background-img.jpg); background-repeat: no-repeat; ">
+        <div class="container padding-medium">
+            <div class="text-center">
+                <h2 class="display-5 fw-semibold">see what our <span class="text-primary"> learners say</span></h2>
+                <p class="secondary-font">Here we got the real proof to express our work. Our learners expressed our work.</p>
+            </div>
+            <div class="row">
+                <div class="w- offset-md-1 col-md-10">
+                    <div class="swiper testimonial-swiper">
+                        <div class="swiper-wrapper">
+                            @{
+                                ViewData["ReviewList"] = Model.Reviews;
+                                ViewData["IsSlider"] = true;
+                                ViewData["IsSameCourse"] = false;
+                                @await Html.PartialAsync("../Shared/Partials/Student/_ReviewList.cshtml")
+                            }
+
+
+
+
+
+
+                        </div>
+
+                        <div class="swiper-pagination"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+    @section Scripts {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.0/umd/react.development.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.0/umd/react-dom.development.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+        <script src="@Url.Content("~/js/App.jsx")"></script>
+
+        @* <script  src="~/react/dist/student/index.js"></script> *@
+    }
+
+
+
+
+</body>
+
+</html>

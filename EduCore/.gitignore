@@ -1,0 +1,13 @@
+# Ignore Visual Studio temporary files and folder config
+.vs/
+
+# Ignore all bin directories
+bin/
+**/bin/
+
+# Ignore all obj directories
+obj/
+**/obj/
+
+appsettings.json
+AIService.cs
