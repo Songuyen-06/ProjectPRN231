@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduCore.Infrastructure", "E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduCore.Services", "EduCore.Services\EduCore.Services.csproj", "{A7282029-0E0A-4F98-A122-70771E6E983F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduCore.Web", "EduCore.Web\EduCore.Web.csproj", "{A46DAFD3-FD4E-458A-AB2C-A4BCEDB7F57E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduCore.Web", "EduCore.Web\EduCore.Web.csproj", "{914B2C9A-C7C7-43E9-B4C6-AF6207DB2B36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{A7282029-0E0A-4F98-A122-70771E6E983F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7282029-0E0A-4F98-A122-70771E6E983F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7282029-0E0A-4F98-A122-70771E6E983F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A46DAFD3-FD4E-458A-AB2C-A4BCEDB7F57E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A46DAFD3-FD4E-458A-AB2C-A4BCEDB7F57E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A46DAFD3-FD4E-458A-AB2C-A4BCEDB7F57E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A46DAFD3-FD4E-458A-AB2C-A4BCEDB7F57E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{914B2C9A-C7C7-43E9-B4C6-AF6207DB2B36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{914B2C9A-C7C7-43E9-B4C6-AF6207DB2B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{914B2C9A-C7C7-43E9-B4C6-AF6207DB2B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{914B2C9A-C7C7-43E9-B4C6-AF6207DB2B36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
