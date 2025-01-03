@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using MimeKit.Tnef;
 using Newtonsoft.Json;
 
 namespace EduCore.Web.Pages.Student.Course

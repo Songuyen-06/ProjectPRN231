@@ -12,7 +12,7 @@ namespace EduCore.Services
     public class CourseService : ICourseService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        private readonly IMapper _mapper; 
         public CourseService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;

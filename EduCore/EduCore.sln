@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduCore.Services", "EduCore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduCore.Web", "EduCore.Web\EduCore.Web.csproj", "{914B2C9A-C7C7-43E9-B4C6-AF6207DB2B36}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduCore.Services.Tests", "EduCore.Services.Tests\EduCore.Services.Tests.csproj", "{37E5763D-9D4F-4C3A-ACDA-295CC3275261}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{914B2C9A-C7C7-43E9-B4C6-AF6207DB2B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{914B2C9A-C7C7-43E9-B4C6-AF6207DB2B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{914B2C9A-C7C7-43E9-B4C6-AF6207DB2B36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37E5763D-9D4F-4C3A-ACDA-295CC3275261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37E5763D-9D4F-4C3A-ACDA-295CC3275261}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37E5763D-9D4F-4C3A-ACDA-295CC3275261}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37E5763D-9D4F-4C3A-ACDA-295CC3275261}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

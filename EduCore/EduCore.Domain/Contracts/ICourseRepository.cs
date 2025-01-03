@@ -22,10 +22,7 @@ namespace EduCore.Domain
         public Task<IEnumerable<Course>> GetTopSellingCoursesByCateId(int cateId);
 
         public Task<Course> GetCourseDetailByCourseId(int Id);
-<<<<<<< HEAD:EduCore/EduCore.Domain/Contracts/ICourseRepository.cs
         public  Task<IEnumerable<Course>> GetTopSellingCoursesBySubCateId(int subCateId);
-=======
->>>>>>> 80594de4f4698a608476586b56b3613c30cc2064:CourseWebProject/CourseDomain/Contracts/ICourseRepository.cs
 
         public  Task<IEnumerable<Course>> GetEnrolledCourseListByStudentId(int stdId);
 

@@ -16,31 +16,28 @@ namespace EduCore.Domain.Profiles
         public InstructorProfile()
         {
             CreateMap<User, InstructorDTO>()
-                         .IncludeBase<User, UserDTO>()
-                          .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Courses.Any(c => c.Rating.HasValue)? Math.Round(src.Courses.Average(c => c.Rating.GetValueOrDefault()), 1) : 0))
+                            .IncludeBase<User, UserDTO>()
+                            .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Courses.Any(c => c.Rating.HasValue) ? Math.Round(src.Courses.Average(c => c.Rating.GetValueOrDefault()), 1) : 0))
                             .ForMember(dest => dest.NumberStudent, opt => opt.MapFrom(opt => opt.Courses.Sum(c => c.Enrollments.Count)))
                             .ForMember(dest => dest.NumberCourse, opt => opt.MapFrom(opt => opt.Courses.Count))
-<<<<<<< HEAD:EduCore/EduCore.Domain/Profiles/InstructorProfile.cs
-                         .ForMember(dest => dest.CurrentMonthRevenue, opt => opt.MapFrom(src => src.Courses
+                            .ForMember(dest => dest.CurrentMonthRevenue, opt => opt.MapFrom(src => src.Courses
                                        .SelectMany(c => c.Enrollments)
                                      .Where(e => e.EnrollmentDate.Month == DateTime.Now.Month && e.EnrollmentDate.Year == DateTime.Now.Year)
-                                       .Sum(e => e.Course.Price-(e.Course.Price*e.Course.Sale /100 ))
+                                       .Sum(e => e.Course.Price - (e.Course.Price * e.Course.Sale / 100))
                            ))
 
-=======
->>>>>>> 80594de4f4698a608476586b56b3613c30cc2064:CourseWebProject/CourseDomain/Profiles/InstructorProfile.cs
-                             .ForMember(dest => dest.SubCategoryDetails, opt => opt.MapFrom(opt => opt.Courses.Select(c => c.SubCategory).Distinct()))
-                          .ReverseMap();
+                            .ForMember(dest => dest.SubCategoryDetails, opt => opt.MapFrom(opt => opt.Courses.Select(c => c.SubCategory).Distinct()))
+                            .ReverseMap();
 
-            CreateMap<User,InstructorDetailDTO>()
-                .IncludeBase<User, InstructorDTO>()
-                 .ForMember(dest => dest.Courses, opt => opt.MapFrom(opt => opt.Courses))
-                   .ForMember(dest => dest.Reviews, opt => opt.MapFrom(opt => opt.Courses.SelectMany(c=>c.Reviews)))
+            CreateMap<User, InstructorDetailDTO>()
+                       .IncludeBase<User, InstructorDTO>()
+                      .ForMember(dest => dest.Courses, opt => opt.MapFrom(opt => opt.Courses))
+                      .ForMember(dest => dest.Reviews, opt => opt.MapFrom(opt => opt.Courses.SelectMany(c => c.Reviews)))
                      .ReverseMap();
 
-          
+
 
         }
-       
+
     }
 }

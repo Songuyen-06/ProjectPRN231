@@ -1,12 +1,7 @@
-<<<<<<< HEAD:EduCore/EduCore.Web/Services/CertificateService.cs
 ﻿using EduCore.Domain.DTOs;
 
-namespace EduCore.Web.Services
-=======
-﻿using CourseDomain.DTOs;
 
-namespace CourseWeb.Services
->>>>>>> 80594de4f4698a608476586b56b3613c30cc2064:CourseWebProject/CourseWeb/Services/CertificateService.cs
+namespace EduCore.Web.Services
 {
     public class CertificateService : ICertificateService
 

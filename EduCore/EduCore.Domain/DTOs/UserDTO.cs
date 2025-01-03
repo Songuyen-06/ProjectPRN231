@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 
-<<<<<<< HEAD:EduCore/EduCore.Domain/DTOs/UserDTO.cs
 namespace EduCore.Domain.DTOs
-=======
-namespace CourseDomain.DTOs
->>>>>>> 80594de4f4698a608476586b56b3613c30cc2064:CourseWebProject/CourseDomain/DTOs/UserDTO.cs
 {
     public class UserDTO
     {

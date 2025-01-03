@@ -1,21 +1,9 @@
 ﻿using AutoMapper;
-<<<<<<< HEAD:EduCore/EduCore.Domain/Profiles/CertificateProfile.cs
 using EduCore.Domain.DTOs;
 using EduCore.Domain.Models;
-=======
-using CourseDomain.DTOs;
->>>>>>> 80594de4f4698a608476586b56b3613c30cc2064:CourseWebProject/CourseDomain/Profiles/CertificateProfile.cs
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EduCore.Domain.DTOs;
 
-<<<<<<< HEAD:EduCore/EduCore.Domain/Profiles/CertificateProfile.cs
 namespace EduCore.Domain.Profiles
-=======
-namespace CourseDomain.Profiles
->>>>>>> 80594de4f4698a608476586b56b3613c30cc2064:CourseWebProject/CourseDomain/Profiles/CertificateProfile.cs
 {
     public class CertificateProfile : Profile
     {

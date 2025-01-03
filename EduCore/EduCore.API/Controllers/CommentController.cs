@@ -2,7 +2,7 @@
 using EduCore.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Course.API.Controllers
+namespace EduCore.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

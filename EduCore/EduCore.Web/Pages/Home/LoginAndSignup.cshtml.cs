@@ -1,7 +1,7 @@
 ﻿using EduCore.Domain.DTOs;
 using EduCore.Web.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
+//using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -131,12 +131,12 @@ namespace EduCore.Web.Pages.Home
 
         public async Task OnGetSigninGoogle()
         {
-            await HttpContext.ChallengeAsync(
-                GoogleDefaults.AuthenticationScheme,
-                new AuthenticationProperties
-                {
-                    RedirectUri = Url.Page("./LoginAndSignup", "GoogleResponse", null, Request.Scheme)
-                });
+            //await HttpContext.ChallengeAsync(
+            //    GoogleDefaults.AuthenticationScheme,
+            //    new AuthenticationProperties
+            //    {
+            //        RedirectUri = Url.Page("./LoginAndSignup", "GoogleResponse", null, Request.Scheme)
+            //    });
         }
         public async Task<IActionResult> OnGetGoogleResponse()
         {

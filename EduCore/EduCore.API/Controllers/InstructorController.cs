@@ -27,14 +27,11 @@ namespace EduCore.API.Controllers
         {
 
             return Ok(await instructorService.GetInstructorDetailById(instructorId));
-<<<<<<< HEAD:EduCore/EduCore.API/Controllers/InstructorController.cs
         }     
         
         
         
         
-=======
         }
->>>>>>> 80594de4f4698a608476586b56b3613c30cc2064:CourseWebProject/CourseAPI/Controllers/InstructorController.cs
     }
-}
+

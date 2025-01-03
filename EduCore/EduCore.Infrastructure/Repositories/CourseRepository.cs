@@ -27,11 +27,7 @@ namespace EduCore.Infrastructure
                 Include(c => c.Sections).ThenInclude(s => s.Lectures).
                   Include(c => c.Reviews).ThenInclude(r => r.Student).
                      Include(c => c.Enrollments).ThenInclude(e=>e.Student)
-<<<<<<< HEAD:EduCore/EduCore.Infrastructure/Repositories/CourseRepository.cs
                      .ThenInclude(u => u.Role).Include(c=>c.Documents);
-=======
-                     .ThenInclude(u => u.Role);
->>>>>>> 80594de4f4698a608476586b56b3613c30cc2064:CourseWebProject/CourseInfrastructures/Repositories/CourseRepository.cs
         }
         public IQueryable<Course> GetTopSellingCourses()
         {

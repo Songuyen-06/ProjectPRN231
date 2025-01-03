@@ -19,11 +19,7 @@ namespace EduCore.Domain.DTOs
         public int NumberCourse {  get; set; }
 
         [JsonPropertyOrder(12)]
-<<<<<<< HEAD:EduCore/EduCore.Domain/DTOs/InstructorDTO.cs
-        public List<SubCategoryDetailDTO> SubCategoryDetails {  get; set; }
-=======
         public List<SubCategoryDetailDTO > SubCategoryDetails {  get; set; }
->>>>>>> 80594de4f4698a608476586b56b3613c30cc2064:CourseWebProject/CourseDomain/DTOs/InstructorDTO.cs
 
         [JsonPropertyOrder(13)]
         public decimal? CurrentMonthRevenue {  get; set; }

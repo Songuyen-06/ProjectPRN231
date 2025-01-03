@@ -3,24 +3,23 @@
 using EduCore.Web;
 using EduCore.Web.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+    //options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
 })
-.AddCookie()
-.AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
-{
-    var config = builder.Configuration.GetSection("Authentication:Google");
-    options.ClientId = config["ClientId"];
-    options.ClientSecret = config["ClientSecret"];
-    options.CallbackPath = new PathString("/signin-google");
+.AddCookie();
+//.AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+//{
+//    var config = builder.Configuration.GetSection("Authentication:Google");
+//    options.ClientId = config["ClientId"];
+//    options.ClientSecret = config["ClientSecret"];
+//    options.CallbackPath = new PathString("/signin-google");
 
-});
+//});
 builder.Services.AddSignalR();
 
 // Register scoped services

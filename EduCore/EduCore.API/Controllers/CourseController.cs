@@ -27,11 +27,7 @@ namespace EduCore.API.Controllers
             return Ok(courses);
         }
 
-<<<<<<< HEAD:EduCore/EduCore.API/Controllers/CourseController.cs
         [HttpGet("getListCourseByInstructorId/{instructorId}")]
-=======
-        [HttpGet("/getListCourseByInstructorId/{instructorId}")]
->>>>>>> 80594de4f4698a608476586b56b3613c30cc2064:CourseWebProject/CourseAPI/Controllers/CourseController.cs
         public async Task<IActionResult> GetListCourseByInstructorId(int instructorId)
         {
             var courses = await _courseService.GetListCourseByInstructorId(instructorId);
@@ -43,7 +39,6 @@ namespace EduCore.API.Controllers
         public async Task<IActionResult> GetCourseDetailByCourseId(int courseId)
         {
             var courses = await _courseService.GetCourseDetailByCourseId(courseId);
-<<<<<<< HEAD:EduCore/EduCore.API/Controllers/CourseController.cs
 
 
             return Ok(courses);
@@ -54,8 +49,6 @@ namespace EduCore.API.Controllers
         public async Task<IActionResult> GetStatusCourseDetailByStudentIdAndCourseId(int courseId,int studentId)
         {
             var courses = await _courseService.GetStatusCourseDetailByStudentIdAndCourseId(courseId,studentId);
-=======
->>>>>>> 80594de4f4698a608476586b56b3613c30cc2064:CourseWebProject/CourseAPI/Controllers/CourseController.cs
 
 
             return Ok(courses);
